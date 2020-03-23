@@ -1,48 +1,48 @@
-import sun.security.util.ArrayUtil;
+
 
 /**
  * Array based storage for Resumes
  */
 public class ArrayStorage {
     Resume[] storage = new Resume[10000];
+    int storageSize = size();
 
     void clear() {
-        for (int i = 0; i < size(); i++) {
+        for (int i = 0; i < storageSize; i++) {
             storage[i] = null;
         }
+        storageSize = 0;
     }
 
     void save(Resume r) {
-        storage[size()] = r;
+        storage[storageSize] = r;
+        storageSize++;
     }
 
     Resume get(String uuid) {
-        for (int i = 0; i < size(); i++) {
-            if (storage[i].uuid.equals(uuid))
+        for (int i = 0; i < storageSize; i++) {
+            if (storage[i].uuid.equals(uuid)) {
                 return storage[i];
+            }
         }
         return null;
     }
 
     void delete(String uuid) {
         Resume[] storage2 = new Resume[10000];
-        boolean ok = true;
-        for (int i = 0; i < size(); i++) {
+        int deletedIndex = 0;
+        for (int i = 0; i < storageSize; i++) {
             if (storage[i].uuid.equals(uuid)) {
-                ok = false;
-            } else {
-                if (ok) {
-                    storage2[i] = storage[i];
-                } else {
-                    if (i == 0)
-                        storage2[i] = storage[i];
-                    else
-                        storage2[i - 1] = storage[i];
-                }
+                deletedIndex = i;
+                break;
             }
         }
-        storage = storage2;
+            for (int j = deletedIndex; j < storageSize; j++) {
+                storage[j] = storage[j + 1];
+            }
+        storageSize--;
     }
+
 
     /**
      * @return array, contains only Resumes in storage (without null)
