@@ -5,7 +5,7 @@
  */
 public class ArrayStorage {
     Resume[] storage = new Resume[10000];
-    int storageSize = size();
+    int storageSize = 0;
 
     void clear() {
         for (int i = 0; i < storageSize; i++) {
@@ -29,18 +29,18 @@ public class ArrayStorage {
     }
 
     void delete(String uuid) {
-        Resume[] storage2 = new Resume[10000];
         int deletedIndex = 0;
         for (int i = 0; i < storageSize; i++) {
             if (storage[i].uuid.equals(uuid)) {
                 deletedIndex = i;
+                storageSize--;
                 break;
             }
         }
             for (int j = deletedIndex; j < storageSize; j++) {
                 storage[j] = storage[j + 1];
             }
-        storageSize--;
+
     }
 
 
@@ -56,10 +56,6 @@ public class ArrayStorage {
     }
 
     int size() {
-        int i = 0;
-        while (storage[i] != null) {
-            i++;
-        }
-        return i;
+       return storageSize;
     }
 }
