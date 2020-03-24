@@ -32,17 +32,21 @@ public class ArrayStorage {
 
     public void save(Resume r) {
         boolean Exist = false;
-        for (int i = 0; i < storageSize; i++) {
-            if (storage[i].getUuid().equals(r.getUuid())) {
-                Exist = true;
-                break;
-            }
-        }
-        if (Exist) {
-            System.out.println("ERROR! Resume already contain this uuid!");
+        if (storageSize + 1 > 10000) {
+            System.out.println("ERROR! Resume contains maximum elements!");
         } else {
-            storage[storageSize] = r;
-            storageSize++;
+            for (int i = 0; i < storageSize; i++) {
+                if (storage[i].getUuid().equals(r.getUuid())) {
+                    Exist = true;
+                    break;
+                }
+            }
+            if (Exist) {
+                System.out.println("ERROR! Resume already contain this uuid!");
+            } else {
+                storage[storageSize] = r;
+                storageSize++;
+            }
         }
 
     }
