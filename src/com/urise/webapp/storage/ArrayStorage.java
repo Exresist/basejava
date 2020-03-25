@@ -8,43 +8,41 @@ import java.util.Arrays;
  * Array based storage for Resumes
  */
 public class ArrayStorage {
-    private Resume[] storage = new Resume[10000];
+    private Resume[] storage = new Resume[10_000];
     private int storageSize = 0;
+
+    private int index(String uuid) {
+        for (int i = 0; i < storageSize; i++) {
+            if (storage[i].getUuid().equals(uuid)) {
+                return i;
+            }
+        }
+        return -1;
+    }
 
     public void clear() {
         Arrays.fill(storage, 0, storageSize, null);
         storageSize = 0;
     }
 
-    public void update(Resume r) {
-        boolean Exist = false;
-        for (int i = 0; i < storageSize; i++) {
-            if (storage[i].getUuid().equals(r.getUuid())) {
-                storage[i] = r;
-                Exist = true;
-                break;
-            }
-        }
-        if (!Exist) {
+    public void update(Resume resume) {
+        int i = index(resume.getUuid());
+        if (i == -1) {
             System.out.println("ERROR! Resume does not contain this uuid!");
+        } else {
+            storage[i] = resume;
         }
     }
 
-    public void save(Resume r) {
-        boolean Exist = false;
-        if (storageSize + 1 > 10000) {
+    public void save(Resume resume) {
+        if (storageSize + 1 > storage.length) {
             System.out.println("ERROR! Resume contains maximum elements!");
         } else {
-            for (int i = 0; i < storageSize; i++) {
-                if (storage[i].getUuid().equals(r.getUuid())) {
-                    Exist = true;
-                    break;
-                }
-            }
-            if (Exist) {
+            int i = index(resume.getUuid());
+            if (i != -1) {
                 System.out.println("ERROR! Resume already contain this uuid!");
             } else {
-                storage[storageSize] = r;
+                storage[storageSize] = resume;
                 storageSize++;
             }
         }
@@ -52,26 +50,20 @@ public class ArrayStorage {
     }
 
     public Resume get(String uuid) {
-        for (int i = 0; i < storageSize; i++) {
-            if (storage[i].getUuid().equals(uuid)) {
-                return storage[i];
-            }
+        int i = index(uuid);
+        if (i != -1) {
+            return storage[i];
         }
         return null;
     }
 
     public void delete(String uuid) {
-        boolean Exist = false;
-        for (int i = 0; i < storageSize; i++) {
-            if (storage[i].getUuid().equals(uuid)) {
-                storage[i] = storage[storageSize - 1];
-                storage[storageSize - 1] = null;
-                storageSize--;
-                Exist = true;
-                break;
-            }
-        }
-        if (!Exist) {
+        int i = index(uuid);
+        if (i != -1) {
+            storage[i] = storage[storageSize - 1];
+            storage[storageSize - 1] = null;
+            storageSize--;
+        } else {
             System.out.println("ERROR! Resume does not contain this uuid!");
         }
 
@@ -91,4 +83,5 @@ public class ArrayStorage {
     public int size() {
         return storageSize;
     }
+
 }
