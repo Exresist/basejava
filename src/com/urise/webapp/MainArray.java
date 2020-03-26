@@ -2,6 +2,7 @@ package com.urise.webapp;
 
 import com.urise.webapp.model.Resume;
 import com.urise.webapp.storage.ArrayStorage;
+import com.urise.webapp.storage.Storage;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -12,7 +13,7 @@ import java.io.InputStreamReader;
  * (just run, no need to understand)
  */
 public class MainArray {
-    private final static ArrayStorage arrayStorage = new ArrayStorage();
+    private final static Storage ARRAY_STORAGE = new ArrayStorage();
 
     public static void main(String[] args) throws IOException {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
@@ -33,29 +34,29 @@ public class MainArray {
                     printAll();
                     break;
                 case "size":
-                    System.out.println(arrayStorage.size());
+                    System.out.println(ARRAY_STORAGE.size());
                     break;
                 case "save":
                     r = new Resume();
                     r.setUuid(uuid);
-                    arrayStorage.save(r);
+                    ARRAY_STORAGE.save(r);
                     printAll();
                     break;
                 case "delete":
-                    arrayStorage.delete(uuid);
+                    ARRAY_STORAGE.delete(uuid);
                     printAll();
                     break;
                 case "update":
                     r = new Resume();
                     r.setUuid(uuid);
-                    arrayStorage.update(r);
+                    ARRAY_STORAGE.update(r);
                     printAll();
                     break;
                 case "get":
-                    System.out.println(arrayStorage.get(uuid));
+                    System.out.println(ARRAY_STORAGE.get(uuid));
                     break;
                 case "clear":
-                    arrayStorage.clear();
+                    ARRAY_STORAGE.clear();
                     printAll();
                     break;
                 case "exit":
@@ -68,7 +69,7 @@ public class MainArray {
     }
 
     static void printAll() {
-        Resume[] all = arrayStorage.getAll();
+        Resume[] all = ARRAY_STORAGE.getAll();
         System.out.println("----------------------------");
         if (all.length == 0) {
             System.out.println("Empty");
