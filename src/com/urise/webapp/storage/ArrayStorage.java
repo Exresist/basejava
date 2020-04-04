@@ -19,29 +19,16 @@ public class ArrayStorage extends AbstractArrayStorage {
     }
 
     @Override
-    public void delete(String uuid) {
-        int i = getIndex(uuid);
-        if (i != -1) {
-            storage[i] = storage[storageSize - 1];
-            storage[storageSize - 1] = null;
-            storageSize--;
-        } else {
-            System.out.println("ERROR! Resume does not contain " + uuid + "!");
-        }
+    protected void remove(int i) {
+        storage[i] = storage[storageSize - 1];
+        storage[storageSize - 1] = null;
+        storageSize--;
     }
 
     @Override
-    public void save(Resume resume) {
-        if (storageSize + 1 > storage.length) {
-            System.out.println("ERROR! Resume contains maximum elements!");
-        } else {
-            int index = getIndex(resume.getUuid());
-            if (index != -1) {
-                System.out.println("ERROR! Resume already contain " + resume.getUuid() + "!");
-            } else {
-                storage[storageSize] = resume;
-                storageSize++;
-            }
-        }
+    protected void add(Resume resume, int index) {
+        storage[storageSize] = resume;
+        storageSize++;
     }
+
 }
