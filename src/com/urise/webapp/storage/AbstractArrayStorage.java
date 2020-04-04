@@ -12,9 +12,10 @@ public abstract class AbstractArrayStorage implements Storage {
     protected abstract int getIndex(String uuid);
 
     public void delete(String uuid) {
-        int i = getIndex(uuid);
-        if (i > -1) {
-            remove(i);
+        int index = getIndex(uuid);
+        if (index > -1) {
+            remove(index);
+            storageSize--;
         } else {
             System.out.println("ERROR! Resume does not contain " + uuid + "!");
         }
@@ -24,7 +25,7 @@ public abstract class AbstractArrayStorage implements Storage {
 
 
     public void save(Resume resume) {
-        if (storageSize + 1 > storage.length) {
+        if (storageSize >= storage.length) {
             System.out.println("ERROR! Resume contains maximum elements!");
         } else {
             int index = getIndex(resume.getUuid());
@@ -32,6 +33,7 @@ public abstract class AbstractArrayStorage implements Storage {
                 System.out.println("ERROR! Resume already contain " + resume.getUuid() + "!");
             } else {
                 add(resume, index);
+                storageSize++;
             }
         }
     }
