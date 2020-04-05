@@ -15,6 +15,7 @@ public abstract class AbstractArrayStorage implements Storage {
         int index = getIndex(uuid);
         if (index > -1) {
             remove(index);
+            storage[storageSize - 1] = null;
             storageSize--;
         } else {
             System.out.println("ERROR! Resume does not contain " + uuid + "!");
