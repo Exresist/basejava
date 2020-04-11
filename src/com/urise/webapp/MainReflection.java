@@ -13,5 +13,6 @@ public class MainReflection {
         System.out.println(field.get(r));
         field.set(r,"new_uuid");
         System.out.println(r);
+        System.out.println(field.toString());
     }
 }
