@@ -6,8 +6,14 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-public class AbstractArrayStorageTest {
-    private Storage storage;
+public abstract class AbstractArrayStorageTest {
+    protected Storage storage;
+
+    public AbstractArrayStorageTest(Storage storage) {
+        this.storage = storage;
+    }
+
+
     private static final String UUID_1 = "uuid1";
     private static final String UUID_2 = "uuid2";
     private static final String UUID_3 = "uuid3";
