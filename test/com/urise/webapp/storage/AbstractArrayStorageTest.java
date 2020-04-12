@@ -28,10 +28,22 @@ public abstract class AbstractArrayStorageTest {
 
     @Test
     public void delete() {
+        Assert.assertEquals(2, storage.size());
+    }
+
+    @Test(expected = NotExistStorageException.class)
+    public void deleteNotExist() {
+        storage.delete("dummy");
     }
 
     @Test
     public void save() {
+
+    }
+
+    @Test
+    public void saveOverflow() {
+
     }
 
     @Test
