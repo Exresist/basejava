@@ -11,8 +11,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
 public abstract class AbstractArrayStorageTest {
-
-
+    
     protected Storage storage;
 
     private static final String UUID_1 = "uuid1";
@@ -55,7 +54,7 @@ public abstract class AbstractArrayStorageTest {
         try {
             storage.get(UUID_4);
         } catch (Exception e) {
-            fail();
+            fail("Save error!");
         }
     }
 
@@ -66,7 +65,7 @@ public abstract class AbstractArrayStorageTest {
                 storage.save(new Resume());
             }
         } catch (Exception e) {
-            fail();
+            fail("Overflow exception before it's actual overflow!");
         }
         storage.save(new Resume());
     }
