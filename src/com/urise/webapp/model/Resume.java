@@ -1,12 +1,11 @@
 package com.urise.webapp.model;
 
-import java.util.Observable;
 import java.util.UUID;
 
 /**
  * Initial resume class
  */
-public class Resume extends Observable implements Comparable<Resume> {
+public class Resume implements Comparable<Resume> {
 
     // Unique identifier
     private final String uuid;

@@ -25,7 +25,7 @@ public abstract class AbstractArrayStorage implements Storage  {
         }
     }
 
-    protected abstract void remove(int i);
+    protected abstract void remove(int index);
 
 
     public void save(Resume resume) {
