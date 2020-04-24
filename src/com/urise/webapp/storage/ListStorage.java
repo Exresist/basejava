@@ -3,30 +3,28 @@ package com.urise.webapp.storage;
 import com.urise.webapp.model.Resume;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class ListStorage extends AbstractStorage {
 
-    private ArrayList<Resume> storage = new ArrayList<>();
+    private List<Resume> storage = new ArrayList<>();
 
     // Проверка на существование резюме с заданным uuid
     @Override
-    protected boolean itemExist(String uuid) {
-        Resume resume = new Resume(uuid);
+    protected boolean itemExist(Resume resume) {
         return storage.contains(resume);
     }
 
     // Получение резюме с заданным uuid
     @Override
-    protected Resume getResume(String uuid) {
-        Resume resume = new Resume(uuid);
+    protected Resume getResume(Resume resume) {
         return storage.get(storage.indexOf(resume));
 
     }
 
     // Удаление резюме с заданным uuid
     @Override
-    protected void removeResume(String uuid) {
-        Resume resume = new Resume(uuid);
+    protected void removeResume(Resume resume) {
         storage.remove(resume);
     }
 
