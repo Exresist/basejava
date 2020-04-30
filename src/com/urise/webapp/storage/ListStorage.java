@@ -15,10 +15,15 @@ public class ListStorage extends AbstractStorage {
         return storage.contains(resume);
     }
 
+    @Override
+    public Integer getKey(Resume resume) {
+        return storage.indexOf(resume);
+    }
+
     // Получение резюме с заданным uuid
     @Override
     protected Resume getResume(Resume resume) {
-        return storage.get(storage.indexOf(resume));
+        return storage.get(getKey(resume));
 
     }
 
@@ -31,7 +36,7 @@ public class ListStorage extends AbstractStorage {
     // обновление резюме с заданным uuid
     @Override
     protected void updateResume(Resume resume) {
-        storage.set(storage.indexOf(resume), resume);
+        storage.set(getKey(resume), resume);
     }
 
     @Override
@@ -46,7 +51,7 @@ public class ListStorage extends AbstractStorage {
 
     @Override
     public Resume[] getAll() {
-        return storage.toArray(new Resume[0]);
+        return (Resume[]) storage.toArray();
     }
 
     @Override

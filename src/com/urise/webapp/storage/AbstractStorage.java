@@ -14,6 +14,8 @@ public abstract class AbstractStorage implements Storage {
         }
     }
 
+    public abstract Object getKey(Resume resume);
+
     public void save(Resume resume) {
         if (itemExist(resume)) {
             throw new ExistStorageException(resume.getUuid());
@@ -37,7 +39,7 @@ public abstract class AbstractStorage implements Storage {
         if (itemExist(resume)) {
             removeResume(resume);
         }
-            throw new NotExistStorageException(uuid);
+        throw new NotExistStorageException(uuid);
 
     }
 
