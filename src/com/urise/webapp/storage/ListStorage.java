@@ -11,32 +11,38 @@ public class ListStorage extends AbstractStorage {
 
     // Проверка на существование резюме с заданным uuid
     @Override
-    protected boolean itemExist(Resume resume) {
+    protected boolean isExist(Resume resume) {
         return storage.contains(resume);
     }
 
     @Override
-    public Integer getKey(Resume resume) {
-        return storage.indexOf(resume);
+    public Integer getKey(String uuid) {
+        for (Resume resume : storage
+        ) {
+            if (resume.getUuid().equals(uuid)) {
+                return storage.indexOf(resume);
+            }
+        }
+        return null;
     }
 
     // Получение резюме с заданным uuid
     @Override
-    protected Resume getResume(Resume resume) {
-        return storage.get(getKey(resume));
+    protected Resume getResume(String uuid) {
+        return storage.get(getKey(uuid));
 
     }
 
     // Удаление резюме с заданным uuid
     @Override
-    protected void removeResume(Resume resume) {
-        storage.remove(resume);
+    protected void removeResume(String uuid) {
+        storage.removeIf(resume -> resume.getUuid().equals(uuid));
     }
 
     // обновление резюме с заданным uuid
     @Override
     protected void updateResume(Resume resume) {
-        storage.set(getKey(resume), resume);
+        storage.set(getKey(resume.getUuid()), resume);
     }
 
     @Override

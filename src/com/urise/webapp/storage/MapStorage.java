@@ -10,23 +10,23 @@ public class MapStorage extends AbstractStorage {
     private Map<String, Resume> storage = new HashMap<>();
 
     @Override
-    public String getKey(Resume resume) {
-        return resume.getUuid();
+    public String getKey(String uuid) {
+        return uuid;
     }
 
     @Override
-    protected Resume getResume(Resume resume) {
-        return storage.get(resume.getUuid());
+    protected Resume getResume(String uuid) {
+        return storage.get(uuid);
     }
 
     @Override
-    protected boolean itemExist(Resume resume) {
+    protected boolean isExist(Resume resume) {
         return storage.containsKey(resume.getUuid());
     }
 
     @Override
-    protected void removeResume(Resume resume) {
-        storage.remove(resume.getUuid());
+    protected void removeResume(String uuid) {
+        storage.remove(uuid);
     }
 
     @Override
