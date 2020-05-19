@@ -9,7 +9,7 @@ public class ArrayStorage extends AbstractArrayStorage {
 
 
     @Override
-    protected int getIndex(String uuid) {
+    protected Integer getKey(String uuid) {
         for (int index = 0; index < storageSize; index++) {
             if (storage[index].getUuid().equals(uuid)) {
                 return index;
@@ -28,5 +28,4 @@ public class ArrayStorage extends AbstractArrayStorage {
     protected void add(Resume resume, int index) {
         storage[storageSize] = resume;
     }
-
 }

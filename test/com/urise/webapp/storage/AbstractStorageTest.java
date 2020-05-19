@@ -3,8 +3,8 @@ package com.urise.webapp.storage;
 import com.urise.webapp.exception.ExistStorageException;
 import com.urise.webapp.exception.NotExistStorageException;
 import com.urise.webapp.model.Resume;
-import org.junit.Before;
 import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
@@ -25,11 +25,12 @@ public class AbstractStorageTest {
         RESUME_2 = new Resume(UUID_2);
         RESUME_3 = new Resume(UUID_3);
     }
-    public AbstractStorageTest(Storage storage){
-        this.storage = storage;
+
+    public AbstractStorageTest(Storage Storage){
+        this.storage = Storage;
     }
 
-    @Before
+    @BeforeEach
     public void setUp() {
         storage.clear();
         storage.save(RESUME_1);
@@ -83,11 +84,6 @@ public class AbstractStorageTest {
     @Test(expected = NotExistStorageException.class)
     public void updateNotExist() throws CloneNotSupportedException {
         storage.update(new Resume());
-    }
-
-    @Test
-    public void size() throws Exception {
-        assertEquals(3, storage.size());
     }
 
     @Test

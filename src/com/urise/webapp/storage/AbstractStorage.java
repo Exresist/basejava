@@ -7,45 +7,54 @@ import com.urise.webapp.model.Resume;
 public abstract class AbstractStorage implements Storage {
 
     public void update(Resume resume) {
-        if (isExist(resume)) {
-            updateResume(resume);
+        Object key = getKey(resume.getUuid());
+        if (existResume(key)) {
+            updateResume(key, resume);
         } else {
             throw new NotExistStorageException(resume.getUuid());
         }
+
+
     }
 
-    public abstract Object getKey(String uuid);
-
     public void save(Resume resume) {
-        if (isExist(resume)) {
+        Object key = getKey(resume.getUuid());
+        if (!existResume(key)) {
+            addResume(resume, key);
+        } else {
             throw new ExistStorageException(resume.getUuid());
-        } else addResume(resume);
+        }
 
     }
 
     public Resume get(String uuid) {
-        if (isExist(new Resume(uuid))) {
-            return getResume(uuid);
+        Object key = getKey(uuid);
+        if (existResume(key)) {
+            return getResume(key);
+        }
+        throw new NotExistStorageException(uuid);
+
+
+    }
+
+    public void delete(String uuid) {
+        Object key = getKey(uuid);
+        if (existResume(key)) {
+            removeResume(key);
         } else {
             throw new NotExistStorageException(uuid);
         }
     }
 
-    protected abstract Resume getResume(String uuid);
+    protected abstract Resume getResume(Object key);
 
-    public void delete(String uuid) {
-        if (isExist(new Resume(uuid))) {
-            removeResume(uuid);
-        }
-        throw new NotExistStorageException(uuid);
+    protected abstract Object getKey(String uuid);
 
-    }
+    protected abstract boolean existResume(Object key);
 
-    protected abstract boolean isExist(Resume resume);
+    protected abstract void removeResume(Object key);
 
-    protected abstract void removeResume(String uuid);
+    protected abstract void updateResume(Object key, Resume r);
 
-    protected abstract void updateResume(Resume resume);
-
-    protected abstract void addResume(Resume resume);
+    protected abstract void addResume(Resume resume, Object key);
 }
