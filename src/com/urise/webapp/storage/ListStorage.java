@@ -35,7 +35,8 @@ public class ListStorage extends AbstractStorage {
     // Удаление резюме с заданным uuid
     @Override
     protected void removeResume(Object key) {
-        storage.remove(key);
+        int index = (Integer) key;
+        storage.remove(index);
     }
 
     // обновление резюме с заданным uuid
@@ -56,7 +57,7 @@ public class ListStorage extends AbstractStorage {
 
     @Override
     public Resume[] getAll() {
-        return (Resume[]) storage.toArray();
+        return storage.toArray(new Resume[0]);
     }
 
     @Override

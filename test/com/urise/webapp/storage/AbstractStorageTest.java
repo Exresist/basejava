@@ -3,34 +3,28 @@ package com.urise.webapp.storage;
 import com.urise.webapp.exception.ExistStorageException;
 import com.urise.webapp.exception.NotExistStorageException;
 import com.urise.webapp.model.Resume;
+import org.junit.Before;
 import org.junit.Test;
-import org.junit.jupiter.api.BeforeEach;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
-public class AbstractStorageTest {
+public abstract class AbstractStorageTest {
     protected Storage storage;
 
     private static final String UUID_1 = "uuid1";
     private static final String UUID_2 = "uuid2";
     private static final String UUID_3 = "uuid3";
 
-    private static final Resume RESUME_1;
-    private static final Resume RESUME_2;
-    private static final Resume RESUME_3;
-
-    static {
-        RESUME_1 = new Resume(UUID_1);
-        RESUME_2 = new Resume(UUID_2);
-        RESUME_3 = new Resume(UUID_3);
-    }
+    private static final Resume RESUME_1 = new Resume(UUID_1);
+    private static final Resume RESUME_2 = new Resume(UUID_2);
+    private static final Resume RESUME_3 = new Resume(UUID_3);
 
     public AbstractStorageTest(Storage Storage){
         this.storage = Storage;
     }
 
-    @BeforeEach
+    @Before
     public void setUp() {
         storage.clear();
         storage.save(RESUME_1);
@@ -94,5 +88,14 @@ public class AbstractStorageTest {
     @Test(expected = NotExistStorageException.class)
     public void getNotExist() {
         storage.get("dummy");
+    }
+
+    @Test
+    public void getAll(){
+        Storage arrayStorage = new ArrayStorage();
+        arrayStorage.save(RESUME_1);
+        arrayStorage.save(RESUME_2);
+        arrayStorage.save(RESUME_3);
+        assertEquals(arrayStorage.getAll(), storage.getAll());
     }
 }

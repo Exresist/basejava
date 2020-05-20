@@ -35,9 +35,7 @@ public class MapStorage extends AbstractStorage {
     }
 
     @Override
-    protected void addResume(Resume resume, Object key) {
-        storage.put((String) key, resume);
-    }
+    protected void addResume(Resume resume, Object key) { storage.put((String) key, resume); }
 
     @Override
     public void clear() {
@@ -46,7 +44,7 @@ public class MapStorage extends AbstractStorage {
 
     @Override
     public Resume[] getAll() {
-        return (Resume[]) storage.values().toArray();
+        return  storage.values().toArray(new Resume[0]);
     }
 
     @Override
