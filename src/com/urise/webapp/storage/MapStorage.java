@@ -11,7 +11,7 @@ public class MapStorage extends AbstractStorage {
 
     @Override
     public String getKey(String uuid) {
-        return storage.get(uuid).getUuid();
+        return uuid;
     }
 
     @Override
