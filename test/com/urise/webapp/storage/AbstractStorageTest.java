@@ -94,8 +94,6 @@ public abstract class AbstractStorageTest {
     @Test
     public void getAll(){
         Resume[] resumeStorage = storage.getAll();
-        for (int i = 0; i < 3; i++){
-            Assert.assertTrue(resumeStorage[i] == RESUME_1 || resumeStorage[i] == RESUME_2 || resumeStorage[i] == RESUME_3 );
-        }
+        Assert.assertEquals(resumeStorage, storage.getAll());
     }
 }

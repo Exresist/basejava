@@ -18,7 +18,7 @@ public class ListStorage extends AbstractStorage {
     @Override
     public Integer getKey(String uuid) {
         for (int i = 0; i < storage.size(); i++) {
-            if (storage.get(i).getUuid().equals(uuid)){
+            if (storage.get(i).getUuid().equals(uuid)) {
                 return i;
             }
         }
@@ -41,7 +41,7 @@ public class ListStorage extends AbstractStorage {
 
     // обновление резюме с заданным uuid
     @Override
-    protected void updateResume( Object key, Resume resume) {
+    protected void updateResume(Object key, Resume resume) {
         storage.set((Integer) key, resume);
     }
 
@@ -56,8 +56,8 @@ public class ListStorage extends AbstractStorage {
     }
 
     @Override
-    public Resume[] getAll() {
-        return storage.toArray(new Resume[0]);
+    public List<Resume> getAllSorted() {
+        return storage;
     }
 
     @Override
