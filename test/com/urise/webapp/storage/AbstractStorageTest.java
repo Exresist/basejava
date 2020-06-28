@@ -7,6 +7,8 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.List;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
@@ -34,7 +36,7 @@ public abstract class AbstractStorageTest {
     }
 
     @Test(expected = NotExistStorageException.class)
-    public void delete() throws Exception {
+    public void delete() {
         storage.delete(UUID_2);
         assertEquals(2, storage.size());
         storage.get(UUID_2);
@@ -46,7 +48,7 @@ public abstract class AbstractStorageTest {
     }
 
     @Test
-    public void save() throws Exception {
+    public void save() {
         String UUID_4 = "uuid4";
         Resume RESUME_4 = new Resume(UUID_4);
         storage.save(RESUME_4);
@@ -64,25 +66,25 @@ public abstract class AbstractStorageTest {
     }
 
     @Test
-    public void clear() throws Exception {
+    public void clear() {
         storage.clear();
         assertEquals(0, storage.size());
     }
 
     @Test
-    public void update() throws Exception {
+    public void update() {
         Resume resume = new Resume(UUID_1);
         storage.update(resume);
         assertEquals(resume, storage.get(UUID_1));
     }
 
     @Test(expected = NotExistStorageException.class)
-    public void updateNotExist() throws CloneNotSupportedException {
+    public void updateNotExist() {
         storage.update(new Resume());
     }
 
     @Test
-    public void get() throws Exception {
+    public void get() {
         assertEquals(RESUME_1, storage.get(RESUME_1.getUuid()));
     }
 
@@ -93,7 +95,7 @@ public abstract class AbstractStorageTest {
 
     @Test
     public void getAll(){
-        Resume[] resumeStorage = storage.getAll();
-        Assert.assertEquals(resumeStorage, storage.getAll());
+        List<Resume> resumeStorage = storage.getAllSorted();
+        Assert.assertEquals(resumeStorage, storage.getAllSorted());
     }
 }

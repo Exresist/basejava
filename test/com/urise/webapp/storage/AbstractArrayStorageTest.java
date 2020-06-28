@@ -41,7 +41,7 @@ public abstract class AbstractArrayStorageTest {
 
 
     @Test(expected = StorageException.class)
-    public void saveOverflow() throws CloneNotSupportedException {
+    public void saveOverflow() {
         try {
             for (int i = 3; i < AbstractArrayStorage.STORAGE_LIMIT; i++) {
                 storage.save(new Resume());
