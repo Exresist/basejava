@@ -2,12 +2,11 @@ package com.urise.webapp.storage;
 
 import com.urise.webapp.exception.StorageException;
 import com.urise.webapp.model.Resume;
-import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.fail;
 
-public abstract class AbstractArrayStorageTest {
+public abstract class AbstractArrayStorageTest extends AbstractStorageTest {
 
     protected Storage storage;
 
@@ -25,17 +24,9 @@ public abstract class AbstractArrayStorageTest {
         RESUME_3 = new Resume(UUID_3);
     }
 
-    public AbstractArrayStorageTest(Storage storage) {
-        super();
+    protected AbstractArrayStorageTest(Storage storage) {
+        super(storage);
         this.storage = storage;
-    }
-
-    @Before
-    public void setUp() {
-        storage.clear();
-        storage.save(RESUME_1);
-        storage.save(RESUME_2);
-        storage.save(RESUME_3);
     }
 
 
@@ -44,12 +35,12 @@ public abstract class AbstractArrayStorageTest {
     public void saveOverflow() {
         try {
             for (int i = 3; i < AbstractArrayStorage.STORAGE_LIMIT; i++) {
-                storage.save(new Resume());
+                storage.save(new Resume(Integer.toString(i)));
             }
         } catch (Exception e) {
             fail("Overflow exception before it's actual overflow!");
         }
-        storage.save(new Resume());
+        storage.save(new Resume("Name"));
     }
 
 

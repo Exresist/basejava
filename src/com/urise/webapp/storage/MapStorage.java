@@ -17,27 +17,27 @@ public class MapStorage extends AbstractStorage {
     }
 
     @Override
-    protected Resume getResume(Object key) {
-        return storage.get(key);
+    protected Resume getResume(Object searchKey) {
+        return storage.get(searchKey);
     }
 
     @Override
-    protected boolean existResume(Object key) {
-        return storage.containsKey(key);
+    protected boolean existResume(Object searchKey) {
+        return storage.containsKey(searchKey);
     }
 
     @Override
-    protected void removeResume(Object key) {
-        storage.remove(key);
+    protected void removeResume(Object searchKey) {
+        storage.remove(searchKey);
     }
 
     @Override
-    protected void updateResume(Object key, Resume resume) {
-        storage.replace((String) key,resume);
+    protected void updateResume(Object searchKey, Resume resume) {
+        storage.replace((String) searchKey,resume);
     }
 
     @Override
-    protected void addResume(Resume resume, Object key) { storage.put((String) key, resume); }
+    protected void addResume(Resume resume, Object searchKey) { storage.put((String) searchKey, resume); }
 
     @Override
     public void clear() {

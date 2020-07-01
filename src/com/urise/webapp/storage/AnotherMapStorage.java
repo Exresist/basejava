@@ -11,33 +11,35 @@ public class AnotherMapStorage extends AbstractStorage {
     private Map<String, Resume> storage = new HashMap<>();
 
     @Override
-    public String getKey(String fullName) {
-        return fullName;
+    public Resume getKey(String uuid) {
+        return storage.get(uuid);
     }
 
     @Override
-    protected Resume getResume(Object key) {
-        return storage.get(key);
+    protected Resume getResume(Object searchKey) {
+        return (Resume) searchKey;
     }
 
     @Override
-    protected boolean existResume(Object key) {
-        return storage.containsKey(key);
+    protected boolean existResume(Object searchKey) {
+        return storage.containsValue(searchKey);
     }
 
     @Override
-    protected void removeResume(Object key) {
-        storage.remove(key);
+    protected void removeResume(Object searchKey) {
+        Resume resume = (Resume) searchKey;
+        storage.remove(resume.getUuid(), resume);
     }
 
     @Override
-    protected void updateResume(Object key, Resume resume) {
-        storage.replace((String) key, resume);
+    protected void updateResume(Object searchKey, Resume resume) {
+        Resume r = (Resume) searchKey;
+        storage.replace(r.getUuid(), resume);
     }
 
     @Override
-    protected void addResume(Resume resume, Object key) {
-        storage.put((String) key, resume);
+    protected void addResume(Resume resume, Object searchKey) {
+        storage.put(resume.getUuid(), resume);
     }
 
     @Override

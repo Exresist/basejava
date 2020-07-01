@@ -17,9 +17,9 @@ public class MainCollections {
         collection.save(RESUME_1);
         collection.save(RESUME_2);
         collection.save(RESUME_3);
-        Resume[] all = collection.getAll();
+        List<Resume> all = collection.getAllSorted();
         System.out.println("----------------------------");
-        if (all.length == 0) {
+        if (all.size() == 0) {
             System.out.println("Empty");
         } else {
             for (Resume r : all) {
@@ -32,9 +32,9 @@ public class MainCollections {
         System.out.println(collection.size());
         collection.update(RESUME_1);
         collection.clear();
-        all = collection.getAll();
+        all = collection.getAllSorted();
         System.out.println("----------------------------");
-        if (all.length == 0) {
+        if (all.size() == 0) {
             System.out.println("Empty");
         } else {
             for (Resume r : all) {
