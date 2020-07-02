@@ -16,7 +16,7 @@ public class ListStorage extends AbstractStorage {
     }
 
     @Override
-    public Integer getKey(String uuid) {
+    public Integer getSearchKey(String uuid) {
         for (int i = 0; i < storage.size(); i++) {
             if (storage.get(i).getUuid().equals(uuid)) {
                 return i;
@@ -63,5 +63,10 @@ public class ListStorage extends AbstractStorage {
     @Override
     public int size() {
         return storage.size();
+    }
+
+    @Override
+    public List<Resume> copyAllResume() {
+        return new ArrayList<>(storage);
     }
 }

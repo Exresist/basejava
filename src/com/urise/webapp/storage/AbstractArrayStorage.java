@@ -53,16 +53,14 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
         return (Integer) searchKey > -1;
     }
 
-    /**
-     * @return array, contains only Resumes in storage (without null)
-     */
-    public List<Resume> getAllSorted() {
-        return Arrays.asList(storage);
+    @Override
+    public List<Resume> copyAllResume() {
+        return Arrays.asList(Arrays.copyOfRange(storage, 0, storageSize));
     }
 
     protected abstract void add(Resume resume, int index);
 
     protected abstract void remove(int index);
 
-    protected abstract Integer getKey(String uuid);
+    protected abstract Integer getSearchKey(String uuid);
 }

@@ -11,7 +11,7 @@ public class AnotherMapStorage extends AbstractStorage {
     private Map<String, Resume> storage = new HashMap<>();
 
     @Override
-    public Resume getKey(String uuid) {
+    public Resume getSearchKey(String uuid) {
         return storage.get(uuid);
     }
 
@@ -48,12 +48,13 @@ public class AnotherMapStorage extends AbstractStorage {
     }
 
     @Override
-    public List<Resume> getAllSorted() {
-        return new ArrayList<>(storage.values());
+    public int size() {
+        return storage.size();
     }
 
     @Override
-    public int size() {
-        return storage.size();
+    protected List<Resume> copyAllResume() {
+
+        return new ArrayList<>(storage.values());
     }
 }
