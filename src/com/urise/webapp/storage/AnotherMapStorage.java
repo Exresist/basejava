@@ -21,7 +21,7 @@ public class AnotherMapStorage extends AbstractStorage {
     }
 
     @Override
-    protected boolean existResume(Object searchKey) {
+    protected boolean isExistResume(Object searchKey) {
         return storage.containsValue(searchKey);
     }
 
@@ -37,7 +37,7 @@ public class AnotherMapStorage extends AbstractStorage {
         storage.replace(r.getUuid(), resume);
     }
 
-    @Override
+    @Override 
     protected void addResume(Resume resume, Object searchKey) {
         storage.put(resume.getUuid(), resume);
     }
@@ -54,7 +54,6 @@ public class AnotherMapStorage extends AbstractStorage {
 
     @Override
     protected List<Resume> copyAllResume() {
-
         return new ArrayList<>(storage.values());
     }
 }
