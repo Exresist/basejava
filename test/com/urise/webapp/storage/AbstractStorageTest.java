@@ -99,6 +99,5 @@ public abstract class AbstractStorageTest {
         Assert.assertEquals(list.get(0), RESUME_1);
         Assert.assertEquals(list.get(1), RESUME_2);
         Assert.assertEquals(list.get(2), RESUME_3);
-
     }
 }

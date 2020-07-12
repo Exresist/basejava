@@ -11,7 +11,7 @@ public class ListStorage extends AbstractStorage {
 
     // Проверка на существование резюме с заданным uuid
     @Override
-    protected boolean existResume(Object key) {
+    protected boolean isExistResume(Object key) {
         return key != null;
     }
 
@@ -29,7 +29,6 @@ public class ListStorage extends AbstractStorage {
     @Override
     protected Resume getResume(Object key) {
         return storage.get((Integer) key);
-
     }
 
     // Удаление резюме с заданным uuid
