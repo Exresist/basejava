@@ -17,8 +17,10 @@ public abstract class AbstractSection<SK> {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        return compareContent(o);
-    }
 
-    public abstract boolean compareContent(Object o);
+        AbstractSection<SK> string = (AbstractSection<SK>) o;
+
+        return content.equals(string.content);
+        
+    }
 }

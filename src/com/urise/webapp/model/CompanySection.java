@@ -8,9 +8,4 @@ public class CompanySection extends AbstractSection<List<CompanyContent>> {
         super(content);
     }
 
-    @Override
-    public boolean compareContent(Object o) {
-        CompanySection company = (CompanySection) o;
-        return content.equals(company.content);
-    }
 }
