@@ -8,7 +8,6 @@ public enum ContactType {
     GITHUB("Профиль GitHub"),
     STACKOVERFLOW("Профиль Stackoverflow"),
     HOME_PAGE("Домашняя страница");
-    ;
 
     private final String title;
 

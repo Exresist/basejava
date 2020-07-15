@@ -3,11 +3,8 @@ package com.urise.webapp.storage;
 import com.urise.webapp.model.*;
 import org.junit.Test;
 
-import java.lang.reflect.Array;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Map;
 
 public class ResumeTestData{
 
@@ -26,8 +23,8 @@ public class ResumeTestData{
         resume.addSection(SectionType.OBJECTIVE, new StringSection("Hackerman"));
         resume.addSection(SectionType.ACHIEVEMENT, new ListSection(Arrays.asList("pivo", "sex", "sanya", "itmo")));
         resume.addSection(SectionType.QUALIFICATIONS, new ListSection(Arrays.asList("pivo123", "sex123", "sanya123", "itmo123")));
-        resume.addSection(SectionType.EXPERIENCE, new CompanySection(Arrays.asList(new CompanyContent(LocalDate.now(), LocalDate.now(), "Google", "Vse sdelal", "Rabota klevaya"))));
-        resume.addSection(SectionType.EDUCATION, new CompanySection(Arrays.asList(new CompanyContent(LocalDate.now(), LocalDate.now(), "Google", "Vse sdelal", "Rabota klevaya"))));
+        resume.addSection(SectionType.EXPERIENCE, new CompanySection(Arrays.asList(new Experience(LocalDate.now(), LocalDate.now(), "Google", "Vse sdelal", "Rabota klevaya"))));
+        resume.addSection(SectionType.EDUCATION, new CompanySection(Arrays.asList(new Experience(LocalDate.now(), LocalDate.now(), "Google", "Vse sdelal", "Rabota klevaya"))));
 
         resume.getSections().forEach((k, v) -> System.out.println("Type: " + k + " value: " + v));
 
