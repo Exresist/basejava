@@ -23,4 +23,8 @@ public abstract class AbstractSection<SK> {
         return content.equals(string.content);
         
     }
+
+    public int hashCode() {
+        return content.hashCode();
+    }
 }

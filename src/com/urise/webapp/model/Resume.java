@@ -14,6 +14,8 @@ public class Resume {
     private final String uuid;
     private final String fullName;
 
+    private final Map<ContactType, StringSection> contacts = new EnumMap<>(ContactType.class);
+
     private final Map<SectionType, AbstractSection> sections = new EnumMap<>(SectionType.class);
 
     public Resume(String fullName) {
@@ -54,8 +56,6 @@ public class Resume {
     public Map<ContactType, StringSection> getContacts() {
         return contacts;
     }
-
-    private final Map<ContactType, StringSection> contacts = new EnumMap<>(ContactType.class);
 
     public Map<SectionType, AbstractSection> getSections() {
         return sections;

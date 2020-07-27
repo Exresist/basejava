@@ -10,4 +10,9 @@ public class StringSection extends AbstractSection<String> {
     public String toString() {
         return content;
     }
+
+    @Override
+    public boolean equals(Object o){
+        return content.equals((String)o);
+    }
 }

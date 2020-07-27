@@ -21,10 +21,10 @@ public class ResumeTestData{
 
         resume.addSection(SectionType.PERSONAL, new StringSection("Hackerman"));
         resume.addSection(SectionType.OBJECTIVE, new StringSection("Hackerman"));
-        resume.addSection(SectionType.ACHIEVEMENT, new ListSection(Arrays.asList("pivo", "sex", "sanya", "itmo")));
-        resume.addSection(SectionType.QUALIFICATIONS, new ListSection(Arrays.asList("pivo123", "sex123", "sanya123", "itmo123")));
-        resume.addSection(SectionType.EXPERIENCE, new CompanySection(Arrays.asList(new Experience(LocalDate.now(), LocalDate.now(), "Google", "Vse sdelal", "Rabota klevaya"))));
-        resume.addSection(SectionType.EDUCATION, new CompanySection(Arrays.asList(new Experience(LocalDate.now(), LocalDate.now(), "Google", "Vse sdelal", "Rabota klevaya"))));
+        resume.addSection(SectionType.ACHIEVEMENT, new ListSection(Arrays.asList("sss1231", "ss", "sanya", "itmo")));
+        resume.addSection(SectionType.QUALIFICATIONS, new ListSection(Arrays.asList("sss123", "sex123", "sanya123", "itmo123")));
+        resume.addSection(SectionType.EXPERIENCE, new CompanySection(Arrays.asList(new Experience("homePage", "www.google.com", LocalDate.now(), LocalDate.now(), "Google", "Vse sdelal", "Rabota klevaya"))));
+        resume.addSection(SectionType.EDUCATION, new CompanySection(Arrays.asList(new Experience("homePageNumTwo", "www.yandex.ru", LocalDate.now(), LocalDate.now(), "Google", "Vse sdelal", "Rabota klevaya"))));
 
         resume.getSections().forEach((k, v) -> System.out.println("Type: " + k + " value: " + v));
 
