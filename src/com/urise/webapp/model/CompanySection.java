@@ -13,4 +13,9 @@ public class CompanySection extends AbstractSection<List<Experience>> {
     public String toString() {
         return content.stream().map(Experience::toString).collect(Collectors.joining());
     }
+
+    @Override
+    public int hashCode() {
+        return content.hashCode();
+    }
 }

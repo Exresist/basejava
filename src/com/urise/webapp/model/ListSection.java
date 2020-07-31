@@ -1,7 +1,6 @@
 package com.urise.webapp.model;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class ListSection extends AbstractSection<List<String>> {
 
@@ -12,5 +11,10 @@ public class ListSection extends AbstractSection<List<String>> {
     @Override
     public String toString() {
         return String.join("\n", content);
+    }
+
+    @Override
+    public int hashCode() {
+        return content.hashCode();
     }
 }
