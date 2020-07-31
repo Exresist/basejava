@@ -36,7 +36,7 @@ public class Resume {
     public String getFullName() {
         return fullName;
     }
-
+    
     public void addContact(ContactType type, StringSection name) {
         contacts.put(type, name);
     }

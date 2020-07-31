@@ -1,8 +1,10 @@
-package com.urise.webapp.model;
+package com.urise.webapp;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 public class MainFile {
     public static void main(String[] args) throws IOException {
@@ -22,7 +24,10 @@ public class MainFile {
             System.out.println(fis.read());
         } catch (IOException e) {
             throw new RuntimeException(e);
-        } 
-
+        }
+        File directory = new File("C:\\Users\\1\\basejava");
+        Files.walk(Paths.get(directory.getPath()))
+                .filter(Files::isRegularFile)
+                .forEach(System.out::println);
     }
 }

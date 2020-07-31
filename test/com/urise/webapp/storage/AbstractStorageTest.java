@@ -19,11 +19,18 @@ public abstract class AbstractStorageTest {
     private static final String UUID_2 = "uuid2";
     private static final String UUID_3 = "uuid3";
 
-    private static final Resume RESUME_1 = new Resume(UUID_1, "1");
-    private static final Resume RESUME_2 = new Resume(UUID_2, "2");
-    private static final Resume RESUME_3 = new Resume(UUID_3, "3");
+    private static final Resume RESUME_1;
+    private static final Resume RESUME_2;
+    private static final Resume RESUME_3;
 
-    public AbstractStorageTest(Storage Storage){
+    static {
+        RESUME_1 = ResumeTestData.CreateData(UUID_1,"1");
+        RESUME_2 = ResumeTestData.CreateData(UUID_2,"2");
+        RESUME_3 = ResumeTestData.CreateData(UUID_3,"3");
+
+    }
+
+    public AbstractStorageTest(Storage Storage) {
         this.storage = Storage;
     }
 
@@ -94,7 +101,7 @@ public abstract class AbstractStorageTest {
     }
 
     @Test
-    public void getAllSorted(){
+    public void getAllSorted() {
         List<Resume> list = storage.getAllSorted();
         Assert.assertEquals(list.get(0), RESUME_1);
         Assert.assertEquals(list.get(1), RESUME_2);
