@@ -9,6 +9,15 @@ public class ListSection extends AbstractSection<List<String>> {
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        ListSection section = (ListSection) o;
+        return content.equals(section.content);
+    }
+
+    @Override
     public String toString() {
         return String.join("\n", content);
     }

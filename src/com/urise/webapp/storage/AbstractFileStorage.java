@@ -20,13 +20,14 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
         }
         this.directory = directory;
     }
+
     @Override
     protected Resume getResume(File key) {
         File[] files = directory.listFiles();
-        if(files != null){
-            for (File file: files
+        if (files != null) {
+            for (File file : files
             ) {
-                if (key.equals(file)){
+                if (key.equals(file)) {
 
                 }
             }
@@ -37,10 +38,10 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
     @Override
     protected File getSearchKey(String uuid) {
         File[] files = directory.listFiles();
-        if(files != null){
-            for (File file: files
+        if (files != null) {
+            for (File file : files
             ) {
-                if (uuid.equals(file.getName())){
+                if (uuid.equals(file.getName())) {
                     return file;
                 }
             }
@@ -51,10 +52,10 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
     @Override
     protected boolean isExistResume(File key) {
         File[] files = directory.listFiles();
-        if(files != null){
-            for (File file: files
+        if (files != null) {
+            for (File file : files
             ) {
-                if (key.equals(file)){
+                if (key.equals(file)) {
                     return true;
                 }
             }
@@ -64,7 +65,7 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
 
     @Override
     protected void removeResume(File key) {
-        if (!key.delete()){
+        if (!key.delete()) {
             throw new StorageException(key.getName(), "File cannot be deleted");
         }
 
@@ -73,10 +74,10 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
     @Override
     protected void updateResume(File key, Resume resume) {
         File[] files = directory.listFiles();
-        if(files != null){
-            for (File file: files
+        if (files != null) {
+            for (File file : files
             ) {
-                if (key.equals(file)){
+                if (key.equals(file)) {
 
                     try {
                         PrintWriter pw = new PrintWriter(file);
@@ -107,9 +108,8 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
     @Override
     public void clear() {
         File[] files = directory.listFiles();
-        if(files != null){
-            for (File file: files
-            ) {
+        if (files != null) {
+            for (File file : files) {
                 file.delete();
             }
         }
@@ -117,7 +117,7 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
 
     @Override
     public int size() {
-        if(directory.list() == null){
+        if (directory.list() == null) {
             throw new StorageException("Directory does not contain resume!", null);
         }
         return directory.list().length;

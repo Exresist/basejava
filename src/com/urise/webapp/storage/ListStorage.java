@@ -5,13 +5,13 @@ import com.urise.webapp.model.Resume;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ListStorage extends AbstractStorage {
+public class ListStorage extends AbstractStorage<Integer> {
 
-    private List<Resume> storage = new ArrayList<>();
+    private final List<Resume> storage = new ArrayList<>();
 
     // Проверка на существование резюме с заданным uuid
     @Override
-    protected boolean isExistResume(Object key) {
+    protected boolean isExistResume(Integer key) {
         return key != null;
     }
 
@@ -27,25 +27,25 @@ public class ListStorage extends AbstractStorage {
 
     // Получение резюме с заданным uuid
     @Override
-    protected Resume getResume(Object key) {
-        return storage.get((Integer) key);
+    protected Resume getResume(Integer key) {
+        return storage.get(key);
     }
 
     // Удаление резюме с заданным uuid
     @Override
-    protected void removeResume(Object key) {
-        int index = (Integer) key;
+    protected void removeResume(Integer key) {
+        int index = key;
         storage.remove(index);
     }
 
     // обновление резюме с заданным uuid
     @Override
-    protected void updateResume(Object key, Resume resume) {
-        storage.set((Integer) key, resume);
+    protected void updateResume(Integer key, Resume resume) {
+        storage.set(key, resume);
     }
 
     @Override
-    protected void addResume(Resume resume, Object key) {
+    protected void addResume(Resume resume, Integer key) {
         storage.add(resume);
     }
 

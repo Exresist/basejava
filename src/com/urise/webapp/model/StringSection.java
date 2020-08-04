@@ -13,7 +13,11 @@ public class StringSection extends AbstractSection<String> {
 
     @Override
     public boolean equals(Object o) {
-        return content.equals(o);
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        StringSection section = (StringSection) o;
+        return content.equals(section.content);
     }
 
     @Override

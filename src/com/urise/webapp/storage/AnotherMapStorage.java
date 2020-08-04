@@ -22,7 +22,7 @@ public class AnotherMapStorage extends AbstractStorage<Resume> {
 
     @Override
     protected boolean isExistResume(Resume searchKey) {
-        return storage.containsValue(searchKey);
+        return getResume(searchKey) != null;
     }
 
     @Override

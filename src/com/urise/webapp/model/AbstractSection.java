@@ -14,15 +14,7 @@ public abstract class AbstractSection<SK> {
         return content;
     }
 
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        AbstractSection<SK> string = (AbstractSection<SK>) o;
-
-        return content.equals(string.content);
-        
-    }
+    public abstract boolean equals(Object o);
 
     public int hashCode() {
         return content.hashCode();

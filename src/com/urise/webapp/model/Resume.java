@@ -69,12 +69,12 @@ public class Resume {
 
         Resume resume = (Resume) o;
 
-        return uuid.equals(resume.uuid);
+        return this.equals(resume);
     }
 
     @Override
     public int hashCode() {
-        return uuid.hashCode();
+        return hashCode();
     }
 
     @Override
