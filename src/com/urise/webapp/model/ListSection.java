@@ -8,14 +8,15 @@ public class ListSection extends AbstractSection<List<String>> {
         super(content);
     }
 
-    @Override
-    public String toString() {
-        return String.join("\n", content);
+    public boolean equals(Object o){
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ListSection section = (ListSection) o;
+        return content.equals(section.content);
     }
 
     @Override
-    public boolean areEquals(Object o) {
-        ListSection section = (ListSection) o;
-        return content.equals(section.content);
+    public String toString() {
+        return String.join("\n", content);
     }
 }

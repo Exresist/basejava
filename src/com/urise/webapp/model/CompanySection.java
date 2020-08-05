@@ -14,8 +14,9 @@ public class CompanySection extends AbstractSection<List<Experience>> {
         return content.stream().map(Experience::toString).collect(Collectors.joining());
     }
 
-    @Override
-    public boolean areEquals(Object o) {
+    public boolean equals(Object o){
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
         CompanySection section = (CompanySection) o;
         return content.equals(section.content);
     }

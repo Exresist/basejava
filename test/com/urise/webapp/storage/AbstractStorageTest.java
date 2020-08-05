@@ -29,7 +29,6 @@ public abstract class AbstractStorageTest {
         RESUME_1 = ResumeTestData.getInstance(UUID_1, "1");
         RESUME_2 = ResumeTestData.getInstance(UUID_2, "2");
         RESUME_3 = ResumeTestData.getInstance(UUID_3, "3");
-
     }
 
     public AbstractStorageTest(Storage Storage) {
@@ -59,7 +58,7 @@ public abstract class AbstractStorageTest {
     @Test
     public void save() {
         String UUID_4 = "uuid4";
-        Resume RESUME_4 = new Resume(UUID_4, "4");
+        Resume RESUME_4 = ResumeTestData.getInstance(UUID_4, "4");
         storage.save(RESUME_4);
         assertEquals(4, storage.size());
         try {
@@ -104,8 +103,8 @@ public abstract class AbstractStorageTest {
 
     @Test
     public void getAllSorted() {
-        List<Resume> expectedResumes = storage.getAllSorted();
-        List<Resume> actualResumes = Arrays.asList(RESUME_1, RESUME_2, RESUME_3);
+        List<Resume> actualResumes = storage.getAllSorted();
+        List<Resume> expectedResumes = Arrays.asList(RESUME_1, RESUME_2, RESUME_3);
         Assert.assertEquals(expectedResumes, actualResumes);
     }
 }

@@ -6,15 +6,16 @@ public class StringSection extends AbstractSection<String> {
         super(content);
     }
 
-    @Override
-    public String toString() {
-        return content;
+    public boolean equals(Object o){
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        StringSection section = (StringSection) o;
+        return content.equals(section.content);
     }
 
     @Override
-    public boolean areEquals(Object o) {
-        StringSection section = (StringSection) o;
-        return content.equals(section.content);
+    public String toString() {
+        return content;
     }
 
 }
