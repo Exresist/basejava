@@ -10,21 +10,13 @@ public class CompanySection extends AbstractSection<List<Experience>> {
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        CompanySection section = (CompanySection) o;
-        return content.equals(section.content);
-    }
-
-    @Override
     public String toString() {
         return content.stream().map(Experience::toString).collect(Collectors.joining());
     }
 
     @Override
-    public int hashCode() {
-        return content.hashCode();
+    public boolean areEquals(Object o) {
+        CompanySection section = (CompanySection) o;
+        return content.equals(section.content);
     }
 }

@@ -17,12 +17,12 @@ public class AnotherMapStorage extends AbstractStorage<Resume> {
 
     @Override
     protected Resume getResume(Resume searchKey) {
-        return  searchKey;
+        return searchKey;
     }
 
     @Override
     protected boolean isExistResume(Resume searchKey) {
-        return getResume(searchKey) != null;
+        return searchKey != null;
     }
 
     @Override
@@ -32,7 +32,7 @@ public class AnotherMapStorage extends AbstractStorage<Resume> {
 
     @Override
     protected void updateResume(Resume searchKey, Resume resume) {
-        storage.replace(searchKey.getUuid(), searchKey);
+        storage.replace(searchKey.getUuid(), resume);
     }
 
     @Override

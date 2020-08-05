@@ -8,7 +8,7 @@ import java.util.Collections;
 import java.util.UUID;
 
 public class ResumeTestData {
-    public static Resume createData(String uuid, String fullName) {
+    public static Resume getInstance(String uuid, String fullName) {
         Resume resume = new Resume(uuid, fullName);
         resume.addContact(ContactType.EMAIL, "AlexClanc@rere");
         resume.addContact(ContactType.GITHUB, "AlexClanc.com");
@@ -22,14 +22,14 @@ public class ResumeTestData {
         resume.addSection(SectionType.OBJECTIVE, new StringSection("Hackerman"));
         resume.addSection(SectionType.ACHIEVEMENT, new ListSection(Arrays.asList("sss1231", "ss", "sanya", "HSE")));
         resume.addSection(SectionType.QUALIFICATIONS, new ListSection(Arrays.asList("sss123", "s21", "sanya123", "HSE123")));
-        resume.addSection(SectionType.EXPERIENCE, new CompanySection(Collections.singletonList(new Experience("homePage", "www.google.com", Collections.singletonList(new CompanyPositions(LocalDate.MIN, LocalDate.now(), "Vse sdelal", "Rabota klevaya"))))));
+        resume.addSection(SectionType.EXPERIENCE, new CompanySection(Collections.singletonList(new Experience("homePage", "www.google.com", Arrays.asList(new CompanyPositions(LocalDate.MIN, LocalDate.now(), "Vse sdelal", "Rabota klevaya"), new CompanyPositions(LocalDate.MIN, LocalDate.now(), "Vse sdelal", "Rabota klevaya"))))));
         resume.addSection(SectionType.EDUCATION, new CompanySection(Collections.singletonList(new Experience("homePageNumTwo", "www.yandex.ru", Collections.singletonList(new CompanyPositions(LocalDate.MIN, LocalDate.now(), "Vse sdelal", "Rabota klevaya"))))));
         return resume;
     }
 
 
     public static void main(String[] args) {
-        Resume resume = createData(UUID.randomUUID().toString(), "Dummy");
+        Resume resume = getInstance(UUID.randomUUID().toString(), "Dummy");
         resume.getSections().forEach((k, v) -> System.out.println("Type: " + k + " value: " + v));
         resume.getContacts().forEach((k, v) -> System.out.println("ContactType: " + k + " value: " + v));
     }

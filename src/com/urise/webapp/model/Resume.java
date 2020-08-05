@@ -16,7 +16,7 @@ public class Resume {
 
     private final Map<ContactType, String> contacts = new EnumMap<>(ContactType.class);
 
-    private final Map<SectionType, AbstractSection> sections = new EnumMap<>(SectionType.class);
+    private final Map<SectionType, AbstractSection<?>> sections = new EnumMap<>(SectionType.class);
 
     public Resume(String fullName) {
         this(UUID.randomUUID().toString(), fullName);
@@ -41,7 +41,7 @@ public class Resume {
         contacts.put(type, name);
     }
 
-    public void addSection(SectionType type, AbstractSection section) {
+    public void addSection(SectionType type, AbstractSection<?> section) {
         sections.put(type, section);
     }
 
@@ -49,7 +49,7 @@ public class Resume {
         return contacts.get(type);
     }
 
-    public AbstractSection getSection(SectionType type) {
+    public AbstractSection<?> getSection(SectionType type) {
         return sections.get(type);
     }
 
@@ -57,7 +57,7 @@ public class Resume {
         return contacts;
     }
 
-    public Map<SectionType, AbstractSection> getSections() {
+    public Map<SectionType, AbstractSection<?>> getSections() {
         return sections;
     }
 
@@ -74,7 +74,11 @@ public class Resume {
 
     @Override
     public int hashCode() {
-        return hashCode();
+        int result = uuid.hashCode();
+        result = 31 * result + fullName.hashCode();
+        result = 31 * result + contacts.hashCode();
+        result = 31 * result + sections.hashCode();
+        return result;
     }
 
     @Override

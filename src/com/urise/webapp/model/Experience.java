@@ -26,7 +26,13 @@ public class Experience {
 
     @Override
     public String toString() {
-        return homePage + " " + companyPositions.toString();
+        StringBuilder s = new StringBuilder(homePage + " ");
+        for (CompanyPositions companyPos: companyPositions
+             ) {
+            s.append(companyPos.toString()).append(" ");
+        }
+        return s.toString();
+
     }
 
     @Override
