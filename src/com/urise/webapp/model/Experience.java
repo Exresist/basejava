@@ -1,8 +1,12 @@
 package com.urise.webapp.model;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class Experience {
+public class Experience implements Serializable {
+    private static final long serialVersionUID = 1L;
+
+
     private final Link homePage;
     private final List<CompanyPositions> companyPositions;
 
@@ -41,3 +45,5 @@ public class Experience {
         return result;
     }
 }
+
+

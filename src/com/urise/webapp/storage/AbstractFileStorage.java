@@ -4,6 +4,7 @@ import com.urise.webapp.exception.StorageException;
 import com.urise.webapp.model.Resume;
 
 import java.io.*;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -23,16 +24,11 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
 
     @Override
     protected Resume getResume(File key) {
-        File[] files = directory.listFiles();
-        if (files != null) {
-            for (File file : files
-            ) {
-                if (key.equals(file)) {
-
-                }
-            }
+        try {
+            return doRead(new BufferedInputStream(new FileInputStream(key)));
+        } catch (IOException e) {
+           throw new StorageException("File read error", key.getName(), e);
         }
-        return null;
     }
 
     @Override
@@ -73,21 +69,11 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
 
     @Override
     protected void updateResume(File key, Resume resume) {
-        File[] files = directory.listFiles();
-        if (files != null) {
-            for (File file : files
-            ) {
-                if (key.equals(file)) {
-
                     try {
-                        PrintWriter pw = new PrintWriter(file);
-                        pw.write(resume.toString());
-                    } catch (FileNotFoundException e) {
+                        doWrite(resume, new BufferedOutputStream(new FileOutputStream(key)));
+                    } catch (IOException e) {
                         e.printStackTrace();
                     }
-                }
-            }
-        }
     }
 
     @Override
@@ -102,7 +88,15 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
 
     @Override
     protected List<Resume> copyAllResume() {
-        return getAllSorted();
+        File[] files = directory.listFiles();
+        if (files == null) {
+            throw new StorageException("Directory read error", null);
+        }
+        List<Resume> list = new ArrayList<>(files.length);
+        for (File file : files) {
+            list.add(getResume(file));
+        }
+        return list;
     }
 
     @Override
@@ -123,5 +117,7 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
         return directory.list().length;
     }
 
-    public abstract List<Resume> getAllSorted();
+    protected abstract void doWrite(Resume resume, OutputStream os) throws IOException;
+
+    protected abstract Resume doRead(InputStream is) throws IOException;
 }
