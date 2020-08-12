@@ -8,11 +8,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public abstract class AbstractFileStorage extends AbstractStorage<File> {
+public class FileStorage extends AbstractStorage<File> {
     private File directory;
+    private StrategySerialization strategySerialization;
 
-    protected AbstractFileStorage(File directory) {
+    protected FileStorage(File directory, StrategySerialization strategySerialization) {
         Objects.requireNonNull(directory, "directory must not be null");
+        this.strategySerialization = strategySerialization;
         if (!directory.isDirectory()) {
             throw new IllegalArgumentException(directory.getAbsolutePath() + " is not directory");
         }
@@ -25,24 +27,15 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
     @Override
     protected Resume getResume(File key) {
         try {
-            return doRead(new BufferedInputStream(new FileInputStream(key)));
+            return strategySerialization.doRead(new BufferedInputStream(new FileInputStream(key)));
         } catch (IOException e) {
-           throw new StorageException("File read error", key.getName(), e);
+            throw new StorageException("File read error", key.getName(), e);
         }
     }
 
     @Override
     protected File getSearchKey(String uuid) {
-        File[] files = directory.listFiles();
-        if (files != null) {
-            for (File file : files
-            ) {
-                if (uuid.equals(file.getName())) {
-                    return file;
-                }
-            }
-        }
-        return null;
+        return new File(directory, uuid);
     }
 
     @Override
@@ -69,21 +62,21 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
 
     @Override
     protected void updateResume(File key, Resume resume) {
-                    try {
-                        doWrite(resume, new BufferedOutputStream(new FileOutputStream(key)));
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
+        try {
+            strategySerialization.doWrite(resume, new BufferedOutputStream(new FileOutputStream(key)));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
     protected void addResume(Resume resume, File key) {
         try {
-            PrintWriter pw = new PrintWriter(key);
-            pw.write(resume.toString());
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            key.createNewFile();
+        } catch (IOException e) {
+            throw new StorageException("Couldn't create file " + key.getAbsolutePath(), key.getName(), e);
         }
+        updateResume(key, resume);
     }
 
     @Override
@@ -114,10 +107,7 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
         if (directory.list() == null) {
             throw new StorageException("Directory does not contain resume!", null);
         }
-        return directory.list().length;
+        return Objects.requireNonNull(directory.list()).length;
     }
 
-    protected abstract void doWrite(Resume resume, OutputStream os) throws IOException;
-
-    protected abstract Resume doRead(InputStream is) throws IOException;
 }
