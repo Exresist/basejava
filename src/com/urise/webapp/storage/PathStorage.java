@@ -29,7 +29,7 @@ public class PathStorage extends AbstractStorage<Path> {
     @Override
     protected Resume getResume(Path key) {
         try {
-            return strategySerialization.doRead(Files.newInputStream(key));
+            return strategySerialization.doRead(new BufferedInputStream(Files.newInputStream(key)));
         } catch (IOException e) {
             throw new StorageException("Path read error", key.getFileName().toString(), e);
         }
@@ -60,7 +60,7 @@ public class PathStorage extends AbstractStorage<Path> {
         try {
             strategySerialization.doWrite(resume, new BufferedOutputStream(Files.newOutputStream(key)));
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new StorageException("Update error", null, e);
         }
     }
 

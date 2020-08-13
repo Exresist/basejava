@@ -25,11 +25,11 @@ public class FileStorage extends AbstractStorage<File> {
     }
 
     @Override
-    protected Resume getResume(File key) {
+    protected Resume getResume(File files) {
         try {
-            return strategySerialization.doRead(new BufferedInputStream(new FileInputStream(key)));
+            return strategySerialization.doRead(new BufferedInputStream(new FileInputStream(files)));
         } catch (IOException e) {
-            throw new StorageException("File read error", key.getName(), e);
+            throw new StorageException("File read error", files.getName(), e);
         }
     }
 
@@ -39,44 +39,35 @@ public class FileStorage extends AbstractStorage<File> {
     }
 
     @Override
-    protected boolean isExistResume(File key) {
-        File[] files = directory.listFiles();
-        if (files != null) {
-            for (File file : files
-            ) {
-                if (key.equals(file)) {
-                    return true;
-                }
-            }
-        }
-        return false;
+    protected boolean isExistResume(File files) {
+        return files.exists();
     }
 
     @Override
-    protected void removeResume(File key) {
-        if (!key.delete()) {
-            throw new StorageException(key.getName(), "File cannot be deleted");
+    protected void removeResume(File files) {
+        if (!files.delete()) {
+            throw new StorageException(files.getName(), "File cannot be deleted");
         }
 
     }
 
     @Override
-    protected void updateResume(File key, Resume resume) {
+    protected void updateResume(File files, Resume resume) {
         try {
-            strategySerialization.doWrite(resume, new BufferedOutputStream(new FileOutputStream(key)));
+            strategySerialization.doWrite(resume, new BufferedOutputStream(new FileOutputStream(files)));
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new StorageException("Update error " + files.getAbsolutePath(), files.getName(), e);
         }
     }
 
     @Override
-    protected void addResume(Resume resume, File key) {
+    protected void addResume(Resume resume, File files) {
         try {
-            key.createNewFile();
+            files.createNewFile();
         } catch (IOException e) {
-            throw new StorageException("Couldn't create file " + key.getAbsolutePath(), key.getName(), e);
+            throw new StorageException("Couldn't create file " + files.getAbsolutePath(), files.getName(), e);
         }
-        updateResume(key, resume);
+        updateResume(files, resume);
     }
 
     @Override
@@ -94,11 +85,9 @@ public class FileStorage extends AbstractStorage<File> {
 
     @Override
     public void clear() {
-        File[] files = directory.listFiles();
-        if (files != null) {
-            for (File file : files) {
-                file.delete();
-            }
+        File[] files = filesList();
+        for (File file : files) {
+            file.delete();
         }
     }
 
@@ -108,6 +97,14 @@ public class FileStorage extends AbstractStorage<File> {
             throw new StorageException("Directory does not contain resume!", null);
         }
         return Objects.requireNonNull(directory.list()).length;
+    }
+
+    private File[] filesList() {
+        File[] files = directory.listFiles();
+        if (files == null) {
+            throw new StorageException("Directory read error", null);
+        }
+        return files;
     }
 
 }

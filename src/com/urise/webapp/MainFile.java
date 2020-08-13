@@ -25,18 +25,17 @@ public class MainFile {
             throw new RuntimeException(e);
         }
         File directory = new File("C:\\Users\\1\\basejava");
-        PrintFiles(directory, "");
+        printFiles(directory, "");
 
     }
 
-    public static void PrintFiles(File directory, String space) {
+    public static void printFiles(File directory, String space) {
         if (directory.isDirectory()) {
             System.out.println(space + "Directory:" + directory.getName());
-            for (File file: Objects.requireNonNull(directory.listFiles())
-                 ) {
-                PrintFiles(file, space + " ");
+            for (File file : Objects.requireNonNull(directory.listFiles())) {
+                printFiles(file, space + " ");
             }
-        } else{
+        } else {
             System.out.println(space + "File" + directory.getName());
         }
     }

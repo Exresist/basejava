@@ -70,9 +70,7 @@ public class Resume implements Comparable<Resume>, Serializable {
         if (o == null || getClass() != o.getClass()) return false;
         Resume resume = (Resume) o;
         return uuid.equals(resume.uuid) &&
-                fullName.equals(resume.fullName) &&
-                contacts.equals(resume.contacts) &&
-                sections.equals(resume.sections);
+                fullName.equals(resume.fullName);
     }
 
     @Override
