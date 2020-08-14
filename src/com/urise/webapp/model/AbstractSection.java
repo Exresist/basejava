@@ -17,12 +17,7 @@ public abstract class AbstractSection<SK> implements Serializable {
         return content;
     }
 
-    public boolean equals(Object o){
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        AbstractSection<SK> section = (AbstractSection<SK>) o;
-        return content.equals(section.content);
-    }
+    public abstract boolean equals(Object o);
 
     public int hashCode() {
         return content.hashCode();

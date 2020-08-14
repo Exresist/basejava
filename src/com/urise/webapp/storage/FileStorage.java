@@ -25,11 +25,11 @@ public class FileStorage extends AbstractStorage<File> {
     }
 
     @Override
-    protected Resume getResume(File files) {
+    protected Resume getResume(File file) {
         try {
-            return strategySerialization.doRead(new BufferedInputStream(new FileInputStream(files)));
+            return strategySerialization.doRead(new BufferedInputStream(new FileInputStream(file)));
         } catch (IOException e) {
-            throw new StorageException("File read error", files.getName(), e);
+            throw new StorageException("File read error", file.getName(), e);
         }
     }
 
@@ -39,14 +39,14 @@ public class FileStorage extends AbstractStorage<File> {
     }
 
     @Override
-    protected boolean isExistResume(File files) {
-        return files.exists();
+    protected boolean isExistResume(File file) {
+        return file.exists();
     }
 
     @Override
-    protected void removeResume(File files) {
-        if (!files.delete()) {
-            throw new StorageException(files.getName(), "File cannot be deleted");
+    protected void removeResume(File file) {
+        if (!file.delete()) {
+            throw new StorageException(file.getName(), "File cannot be deleted");
         }
 
     }
@@ -61,21 +61,18 @@ public class FileStorage extends AbstractStorage<File> {
     }
 
     @Override
-    protected void addResume(Resume resume, File files) {
+    protected void addResume(Resume resume, File file) {
         try {
-            files.createNewFile();
+            file.createNewFile();
         } catch (IOException e) {
-            throw new StorageException("Couldn't create file " + files.getAbsolutePath(), files.getName(), e);
+            throw new StorageException("Couldn't create file " + file.getAbsolutePath(), file.getName(), e);
         }
-        updateResume(files, resume);
+        updateResume(file, resume);
     }
 
     @Override
     protected List<Resume> copyAllResume() {
-        File[] files = directory.listFiles();
-        if (files == null) {
-            throw new StorageException("Directory read error", null);
-        }
+        File[] files = filesList();
         List<Resume> list = new ArrayList<>(files.length);
         for (File file : files) {
             list.add(getResume(file));

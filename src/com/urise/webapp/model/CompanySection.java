@@ -5,6 +5,8 @@ import java.util.stream.Collectors;
 
 public class CompanySection extends AbstractSection<List<Experience>> {
 
+    private static final long serialVersionUID = 1L;
+
     public CompanySection(List<Experience> content) {
         super(content);
     }
