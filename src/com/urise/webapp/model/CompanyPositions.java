@@ -28,11 +28,18 @@ public class CompanyPositions implements Serializable {
     }
 
     @Override
-    public int hashCode(){
-        int result = startDate.hashCode();
-        result = 31 * result + endDate.hashCode();
-        result = 31 * result + title.hashCode();
-        result = 31 * result + text.hashCode();
-        return result;
+    public int hashCode() {
+        return Objects.hash(startDate, endDate, title, text);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        CompanyPositions position = (CompanyPositions) o;
+        return Objects.equals(startDate, position.startDate) &&
+                Objects.equals(endDate, position.endDate) &&
+                Objects.equals(title, position.title) &&
+                Objects.equals(text, position.text);
     }
 }
