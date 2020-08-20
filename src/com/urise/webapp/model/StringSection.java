@@ -1,8 +1,16 @@
 package com.urise.webapp.model;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+
+@XmlAccessorType(XmlAccessType.FIELD)
 public class StringSection extends AbstractSection<String> {
 
     private static final long serialVersionUID = 1L;
+
+    public StringSection() {
+
+    }
 
     public StringSection(String content) {
         super(content);

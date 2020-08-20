@@ -1,19 +1,28 @@
 package com.urise.webapp.model;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
 import java.io.Serializable;
+import java.util.Arrays;
 import java.util.List;
 
-public class Experience implements Serializable {
+@XmlAccessorType(XmlAccessType.FIELD)
+public class Company implements Serializable {
     private static final long serialVersionUID = 1L;
 
+    private Link homePage;
+    private List<CompanyPositions> companyPositions;
 
-    private final Link homePage;
-    private final List<CompanyPositions> companyPositions;
+    public Company() {
+    }
 
-    public Experience(String name, String url, List<CompanyPositions> companyPositions) {
+    public Company(String name, String url, CompanyPositions... companyPositions) {
+        this(new Link(name, url), Arrays.asList(companyPositions));
+    }
 
-        this.homePage = new Link(name, url);
-        this.companyPositions = companyPositions;
+    public Company(Link homePage, List<CompanyPositions> positions) {
+        this.homePage = homePage;
+        this.companyPositions = positions;
     }
 
     @Override
@@ -21,7 +30,7 @@ public class Experience implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        Experience company = (Experience) o;
+        Company company = (Company) o;
 
         if (!homePage.equals(company.homePage)) return false;
         return companyPositions.equals(company.companyPositions);

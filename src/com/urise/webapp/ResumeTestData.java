@@ -3,8 +3,6 @@ package com.urise.webapp;
 import com.urise.webapp.model.*;
 
 import java.time.LocalDate;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.UUID;
 
 public class ResumeTestData {
@@ -20,10 +18,10 @@ public class ResumeTestData {
 
         resume.addSection(SectionType.PERSONAL, new StringSection("Hackerman"));
         resume.addSection(SectionType.OBJECTIVE, new StringSection("Hackerman"));
-        resume.addSection(SectionType.ACHIEVEMENT, new ListSection(Arrays.asList("sss1231", "ss", "sanya", "HSE")));
-        resume.addSection(SectionType.QUALIFICATIONS, new ListSection(Arrays.asList("sss123", "s21", "sanya123", "HSE123")));
-        resume.addSection(SectionType.EXPERIENCE, new CompanySection(Collections.singletonList(new Experience("homePage", "www.google.com", Arrays.asList(new CompanyPositions(LocalDate.MIN, LocalDate.now(), "Vse sdelal", "Rabota klevaya"), new CompanyPositions(LocalDate.MIN, LocalDate.now(), "Vse sdelal", "Rabota klevaya"))))));
-        resume.addSection(SectionType.EDUCATION, new CompanySection(Collections.singletonList(new Experience("homePageNumTwo", "www.yandex.ru", Collections.singletonList(new CompanyPositions(LocalDate.MIN, LocalDate.now(), "Vse sdelal", "Rabota klevaya"))))));
+        resume.addSection(SectionType.ACHIEVEMENT, new ListSection("sss1231", "ss", "sanya", "HSE"));
+        resume.addSection(SectionType.QUALIFICATIONS, new ListSection("sss123", "s21", "sanya123", "HSE123"));
+        resume.addSection(SectionType.EXPERIENCE, new CompanySection(new Company("homePage", "www.google.com", new CompanyPositions(LocalDate.MIN, LocalDate.now(), "Vse sdelal", "Rabota klevaya"), new CompanyPositions(LocalDate.MIN, LocalDate.now(), "Vse sdelal", "Rabota klevaya"))));
+        resume.addSection(SectionType.EDUCATION, new CompanySection(new Company("homePageNumTwo", "www.yandex.ru", new CompanyPositions(LocalDate.MIN, LocalDate.now(), "Vse sdelal", "Rabota klevaya"))));
         return resume;
     }
 

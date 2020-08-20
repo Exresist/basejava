@@ -2,6 +2,7 @@ package com.urise.webapp.storage;
 
 import com.urise.webapp.exception.StorageException;
 import com.urise.webapp.model.Resume;
+import com.urise.webapp.storage.serializer.StrategySerialization;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
@@ -33,7 +34,7 @@ public class PathStorage extends AbstractStorage<Path> {
         try {
             return strategySerialization.doRead(new BufferedInputStream(Files.newInputStream(key)));
         } catch (IOException e) {
-            throw new StorageException("Path read error", key.getFileName().toString(), e);
+            throw new StorageException("Path read error", getFileName(key), e);
         }
     }
 
@@ -52,7 +53,7 @@ public class PathStorage extends AbstractStorage<Path> {
         try {
             Files.deleteIfExists(key);
         } catch (IOException e) {
-            throw new StorageException(key.getFileName().toString(), "Path cannot be deleted");
+            throw new StorageException(getFileName(key), "Path cannot be deleted");
         }
 
     }
@@ -71,7 +72,7 @@ public class PathStorage extends AbstractStorage<Path> {
         try {
             Files.createFile(key);
         } catch (IOException e) {
-            throw new StorageException("Couldn't create file " + key, key.getFileName().toString(), e);
+            throw new StorageException("Couldn't create file " + key, getFileName(key), e);
         }
         updateResume(key, resume);
     }
@@ -97,5 +98,9 @@ public class PathStorage extends AbstractStorage<Path> {
         } catch (IOException e) {
             throw new StorageException("Directory read error", null, e);
         }
+    }
+    
+    private String getFileName(Path path){
+        return path.getFileName().toString();
     }
 }
