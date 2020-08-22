@@ -8,7 +8,7 @@ import java.nio.charset.StandardCharsets;
 
 public class XmlStreamSerializer implements StrategySerialization {
 
-    private XmlParser xmlParser;
+    private final XmlParser xmlParser;
 
     public XmlStreamSerializer() {
         xmlParser = new XmlParser(

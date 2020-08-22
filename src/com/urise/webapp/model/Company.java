@@ -11,6 +11,15 @@ public class Company implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private Link homePage;
+
+    public Link getHomePage() {
+        return homePage;
+    }
+
+    public List<CompanyPositions> getCompanyPositions() {
+        return companyPositions;
+    }
+
     private List<CompanyPositions> companyPositions;
 
     public Company() {

@@ -1,7 +1,10 @@
 package com.urise.webapp.model;
 
+import com.urise.webapp.util.LocalDateAdapter;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Objects;
@@ -10,7 +13,26 @@ import java.util.Objects;
 public class CompanyPositions implements Serializable {
     private static final long serialVersionUID = 1L;
 
+    @XmlJavaTypeAdapter(LocalDateAdapter.class)
     private LocalDate startDate;
+
+    public LocalDate getStartDate() {
+        return startDate;
+    }
+
+    public LocalDate getEndDate() {
+        return endDate;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public String getText() {
+        return text;
+    }
+
+    @XmlJavaTypeAdapter(LocalDateAdapter.class)
     private LocalDate endDate;
     private String title;
     private String text;
