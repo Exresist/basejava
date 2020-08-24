@@ -10,11 +10,29 @@ import java.time.LocalDate;
 import java.util.Objects;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-public class CompanyPositions implements Serializable {
+public class CompanyPosition implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @XmlJavaTypeAdapter(LocalDateAdapter.class)
     private LocalDate startDate;
+    @XmlJavaTypeAdapter(LocalDateAdapter.class)
+    private LocalDate endDate;
+    private String title;
+    private String text;
+
+    public CompanyPosition() {
+    }
+
+    public CompanyPosition(LocalDate startDate, LocalDate endDate, String title, String text) {
+        Objects.requireNonNull(startDate, "startDate must not be null");
+        Objects.requireNonNull(endDate, "endDate must not be null");
+        Objects.requireNonNull(title, "title must not be null");
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.title = title;
+        this.text = text == null ? "" : text;
+
+    }
 
     public LocalDate getStartDate() {
         return startDate;
@@ -32,24 +50,6 @@ public class CompanyPositions implements Serializable {
         return text;
     }
 
-    @XmlJavaTypeAdapter(LocalDateAdapter.class)
-    private LocalDate endDate;
-    private String title;
-    private String text;
-
-    public CompanyPositions() {
-    }
-
-    public CompanyPositions(LocalDate startDate, LocalDate endDate, String title, String text) {
-        Objects.requireNonNull(startDate, "startDate must not be null");
-        Objects.requireNonNull(endDate, "endDate must not be null");
-        Objects.requireNonNull(title, "title must not be null");
-        this.startDate = startDate;
-        this.endDate = endDate;
-        this.title = title;
-        this.text = text;
-    }
-
     @Override
     public String toString() {
         return startDate + " " + endDate + " " + title + " " + text;
@@ -64,7 +64,7 @@ public class CompanyPositions implements Serializable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        CompanyPositions position = (CompanyPositions) o;
+        CompanyPosition position = (CompanyPosition) o;
         return Objects.equals(startDate, position.startDate) &&
                 Objects.equals(endDate, position.endDate) &&
                 Objects.equals(title, position.title) &&

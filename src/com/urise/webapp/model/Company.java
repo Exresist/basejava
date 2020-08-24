@@ -12,26 +12,26 @@ public class Company implements Serializable {
 
     private Link homePage;
 
-    public Link getHomePage() {
-        return homePage;
-    }
-
-    public List<CompanyPositions> getCompanyPositions() {
-        return companyPositions;
-    }
-
-    private List<CompanyPositions> companyPositions;
+    private List<CompanyPosition> companyPositions;
 
     public Company() {
     }
 
-    public Company(String name, String url, CompanyPositions... companyPositions) {
+    public Company(String name, String url, CompanyPosition... companyPositions) {
         this(new Link(name, url), Arrays.asList(companyPositions));
     }
 
-    public Company(Link homePage, List<CompanyPositions> positions) {
+    public Company(Link homePage, List<CompanyPosition> positions) {
         this.homePage = homePage;
         this.companyPositions = positions;
+    }
+
+    public Link getHomePage() {
+        return homePage;
+    }
+
+    public List<CompanyPosition> getCompanyPositions() {
+        return companyPositions;
     }
 
     @Override
@@ -49,7 +49,7 @@ public class Company implements Serializable {
     @Override
     public String toString() {
         StringBuilder s = new StringBuilder(homePage + " ");
-        for (CompanyPositions companyPos : companyPositions) {
+        for (CompanyPosition companyPos : companyPositions) {
             s.append(companyPos.toString()).append(" ");
         }
         return s.toString();

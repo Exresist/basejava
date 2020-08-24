@@ -13,7 +13,7 @@ public class XmlStreamSerializer implements StrategySerialization {
     public XmlStreamSerializer() {
         xmlParser = new XmlParser(
                 Resume.class, Company.class, Link.class, CompanySection.class,
-                StringSection.class, ListSection.class, CompanyPositions.class, AbstractSection.class);
+                StringSection.class, ListSection.class, CompanyPosition.class, AbstractSection.class);
     }
 
     @Override

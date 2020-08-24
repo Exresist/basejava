@@ -20,22 +20,22 @@ public class DataStreamSerializer implements StrategySerialization {
                 dos.writeUTF(dataStreamWriter.getValue());
             });
 
-            writeInfo(dos, resume.getSections().entrySet(), dst -> {
-                dos.writeUTF(dst.getKey().name());
-                switch (dst.getKey()) {
+            writeInfo(dos, resume.getSections().entrySet(), sectionEntry -> {
+                dos.writeUTF(sectionEntry.getKey().name());
+                switch (sectionEntry.getKey()) {
                     case PERSONAL:
                     case OBJECTIVE: {
-                        dos.writeUTF(((StringSection) dst.getValue()).getContent());
+                        dos.writeUTF(((StringSection) sectionEntry.getValue()).getContent());
                         break;
                     }
                     case ACHIEVEMENT:
                     case QUALIFICATIONS: {
-                        writeInfo(dos, ((ListSection) dst.getValue()).getItems(), dos::writeUTF);
+                        writeInfo(dos, ((ListSection) sectionEntry.getValue()).getItems(), dos::writeUTF);
                         break;
                     }
                     case EDUCATION:
                     case EXPERIENCE: {
-                        writeInfo(dos, ((CompanySection) dst.getValue()).getCompanies(), company -> {
+                        writeInfo(dos, ((CompanySection) sectionEntry.getValue()).getCompanies(), company -> {
                             dos.writeUTF((company.getHomePage().getName()));
                             dos.writeUTF(company.getHomePage().getUrl());
                             writeInfo(dos, company.getCompanyPositions(), position -> {
@@ -101,12 +101,12 @@ public class DataStreamSerializer implements StrategySerialization {
                 return new CompanySection(
                         readList(dis, () -> new Company(
                                 new Link(dis.readUTF(), dis.readUTF()),
-                                readList(dis, () -> new CompanyPositions(
-                                        LocalDate.of(dis.readInt(), dis.readInt(), dis.readInt()),
-                                        LocalDate.of(dis.readInt(), dis.readInt(), dis.readInt()), dis.readUTF(), dis.readUTF())
+                                readList(dis, () -> new CompanyPosition(
+                                        readLocalDate(dis),
+                                        readLocalDate(dis), dis.readUTF(), dis.readUTF())
                                 ))));
             default:
-                return null;
+                throw new IOException();
         }
     }
 
@@ -117,8 +117,7 @@ public class DataStreamSerializer implements StrategySerialization {
     private <T> void writeInfo(DataOutputStream dos, Collection<T> collection, DataStreamWriter<T> writer) throws
             IOException {
         dos.writeInt(collection.size());
-        for (T item : collection
-        ) {
+        for (T item : collection) {
             writer.write(item);
         }
     }
@@ -130,5 +129,9 @@ public class DataStreamSerializer implements StrategySerialization {
             list.add(reader.read());
         }
         return list;
+    }
+
+    private LocalDate readLocalDate(DataInputStream dis) throws IOException {
+        return LocalDate.of(dis.readInt(), dis.readInt(), dis.readInt());
     }
 }
