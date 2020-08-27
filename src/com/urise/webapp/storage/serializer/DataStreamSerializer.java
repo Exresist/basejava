@@ -39,12 +39,9 @@ public class DataStreamSerializer implements StrategySerialization {
                             dos.writeUTF((company.getHomePage().getName()));
                             dos.writeUTF(company.getHomePage().getUrl());
                             writeInfo(dos, company.getCompanyPositions(), position -> {
-                                dos.writeInt(position.getStartDate().getYear());
-                                dos.writeInt(position.getStartDate().getMonthValue());
-                                dos.writeInt(position.getStartDate().getDayOfMonth());
-                                dos.writeInt(position.getEndDate().getYear());
-                                dos.writeInt(position.getEndDate().getMonthValue());
-                                dos.writeInt(position.getEndDate().getDayOfMonth());
+                               writeLocalDate(dos, position.getStartDate());
+                               writeLocalDate(dos, position.getEndDate());
+
                                 dos.writeUTF(position.getTitle());
                                 dos.writeUTF(position.getText());
                             });
@@ -133,5 +130,11 @@ public class DataStreamSerializer implements StrategySerialization {
 
     private LocalDate readLocalDate(DataInputStream dis) throws IOException {
         return LocalDate.of(dis.readInt(), dis.readInt(), dis.readInt());
+    }
+
+    private void writeLocalDate(DataOutputStream dos, LocalDate date) throws IOException {
+        dos.writeInt(date.getYear());
+        dos.writeInt(date.getMonthValue());
+        dos.writeInt(date.getDayOfMonth());
     }
 }
