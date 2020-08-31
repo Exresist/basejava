@@ -6,7 +6,9 @@ import java.util.List;
 public class MainConcurrency {
     public static final int THREADS_NUMBER = 10_000;
     private static volatile int counter;
-    private static int num;
+
+    private static final Object object1 = new Object();
+    private static final Object object2 = new Object();
 
     public static void main(String[] args) {
         System.out.println(Thread.currentThread().getName() + "," + Thread.currentThread().getState());
@@ -33,46 +35,39 @@ public class MainConcurrency {
         threads.forEach(t -> {
             try {
                 t.join();
-            } catch (Exception e) {
+            } catch (InterruptedException e) {
                 e.printStackTrace();
             }
+
         });
         System.out.println(counter);
         System.out.println(thread0.getState());
-
-
-        Thread thread1 = new Thread(mainConcurrency::add1);
-
-        Thread thread2 = new Thread(mainConcurrency::add2);
+        Thread thread1 = new Thread(() -> {
+            synchronized (object1) {
+                System.out.println("Object 1 locked");
+                synchronized (object2) {
+                    System.out.println("Object 2 locked");
+                }
+            }
+        });
+        Thread thread2 = new Thread(() -> {
+            synchronized (object2) {
+                System.out.println("Object 2 locked");
+                synchronized (object1) {
+                    System.out.println("Object 1 locked");
+                }
+            }
+        });
         thread1.start();
         thread2.start();
 
-        System.out.println(num);
     }
 
     private synchronized void inc() {
         counter++;
     }
 
-    private synchronized void add1() {
-        num++;
-        try {
-            wait();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        add2();
-    }
 
-    private synchronized void add2() {
-        if (num < 10){
-            num++;
-            try {
-                wait();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            add1();
-        }
-    }
 }
+
+
