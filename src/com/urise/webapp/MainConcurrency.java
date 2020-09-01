@@ -43,16 +43,20 @@ public class MainConcurrency {
         System.out.println(counter);
         System.out.println(thread0.getState());
         Thread thread1 = new Thread(() -> {
+            System.out.println("First thread is going to lock object 1");
             synchronized (object1) {
-                System.out.println("Object 1 locked");
+                System.out.println("Object 1 locked by first thread");
+                System.out.println("First thread is going to lock object 2");
                 synchronized (object2) {
                     System.out.println("Object 2 locked");
                 }
             }
         });
         Thread thread2 = new Thread(() -> {
+            System.out.println("Second thread is going to lock object 2");
             synchronized (object2) {
-                System.out.println("Object 2 locked");
+                System.out.println("Object 2 locked by second thread");
+                System.out.println("Second thread is going to lock object 1");
                 synchronized (object1) {
                     System.out.println("Object 1 locked");
                 }
