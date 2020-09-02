@@ -47,6 +47,11 @@ public class MainConcurrency {
             synchronized (object1) {
                 System.out.println("Object 1 locked by first thread");
                 System.out.println("First thread is going to lock object 2");
+                try {
+                    Thread.sleep(10);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
                 synchronized (object2) {
                     System.out.println("Object 2 locked");
                 }
@@ -57,6 +62,11 @@ public class MainConcurrency {
             synchronized (object2) {
                 System.out.println("Object 2 locked by second thread");
                 System.out.println("Second thread is going to lock object 1");
+                try {
+                    Thread.sleep(10);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
                 synchronized (object1) {
                     System.out.println("Object 1 locked");
                 }
