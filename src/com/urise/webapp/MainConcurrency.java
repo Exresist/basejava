@@ -1,7 +1,10 @@
 package com.urise.webapp;
 
+import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.*;
 
 public class MainConcurrency {
     public static final int THREADS_NUMBER = 10_000;
@@ -9,6 +12,9 @@ public class MainConcurrency {
 
     private static final Object object1 = new Object();
     private static final Object object2 = new Object();
+
+    private static final DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss");
+
 
     public static void main(String[] args) {
         System.out.println(Thread.currentThread().getName() + "," + Thread.currentThread().getState());
@@ -22,59 +28,65 @@ public class MainConcurrency {
         thread0.start();
         new Thread(() -> System.out.println(Thread.currentThread().getName() + "," + Thread.currentThread().getState())).start();
         final MainConcurrency mainConcurrency = new MainConcurrency();
-        List<Thread> threads = new ArrayList<>(THREADS_NUMBER);
+        CountDownLatch latch = new CountDownLatch(THREADS_NUMBER);
+        ExecutorService executorService = Executors.newCachedThreadPool();
+//        CompletionService completionService = new ExecutorCompletionService(executorService);
+
+//        List<Thread> threads = new ArrayList<>(THREADS_NUMBER);
         for (int i = 0; i < THREADS_NUMBER; i++) {
-            Thread thread = new Thread(() -> {
+            executorService.submit(() ->
+//            Thread thread = new Thread(() ->
+            {
                 for (int j = 0; j < 100; j++) {
                     mainConcurrency.inc();
                 }
+                latch.countDown();
             });
-            thread.start();
-            threads.add(thread);
+//            thread.start();
+//            threads.add(thread);
         }
-        threads.forEach(t -> {
+       /* threads.forEach(t -> {
             try {
                 t.join();
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
 
-        });
+        });*/
+        try {
+            latch.await(10, TimeUnit.SECONDS);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        executorService.shutdown();
         System.out.println(counter);
         System.out.println(thread0.getState());
-        Thread thread1 = new Thread(() -> {
-            System.out.println("First thread is going to lock object 1");
-            synchronized (object1) {
-                System.out.println("Object 1 locked by first thread");
-                System.out.println("First thread is going to lock object 2");
-                try {
-                    Thread.sleep(10);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                synchronized (object2) {
-                    System.out.println("Object 2 locked");
-                }
-            }
-        });
-        Thread thread2 = new Thread(() -> {
-            System.out.println("Second thread is going to lock object 2");
-            synchronized (object2) {
-                System.out.println("Object 2 locked by second thread");
-                System.out.println("Second thread is going to lock object 1");
-                try {
-                    Thread.sleep(10);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                synchronized (object1) {
-                    System.out.println("Object 1 locked");
-                }
-            }
-        });
-        thread1.start();
-        thread2.start();
+        deadLock(object1, object2);
+        deadLock(object2, object1);
 
+    }
+
+    private static void deadLock(Object lock1, Object lock2) {
+        new Thread(() -> {
+            System.out.println("Waiting lock 1");
+            synchronized (lock1) {
+                System.out.println("Holding lock 1");
+                try {
+                    Thread.sleep(10);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                System.out.println("Waiting lock 2");
+                synchronized (lock2) {
+                    try {
+                        Thread.sleep(10);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    System.out.println("Holding lock 2");
+                }
+            }
+        }).start();
     }
 
     private synchronized void inc() {

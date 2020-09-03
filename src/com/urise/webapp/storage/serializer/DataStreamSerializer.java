@@ -23,33 +23,22 @@ public class DataStreamSerializer implements StrategySerialization {
             writeInfo(dos, resume.getSections().entrySet(), sectionEntry -> {
                 dos.writeUTF(sectionEntry.getKey().name());
                 switch (sectionEntry.getKey()) {
-                    case PERSONAL:
-                    case OBJECTIVE: {
+                    case PERSONAL, OBJECTIVE -> {
                         dos.writeUTF(((StringSection) sectionEntry.getValue()).getContent());
-                        break;
                     }
-                    case ACHIEVEMENT:
-                    case QUALIFICATIONS: {
-                        writeInfo(dos, ((ListSection) sectionEntry.getValue()).getItems(), dos::writeUTF);
-                        break;
-                    }
-                    case EDUCATION:
-                    case EXPERIENCE: {
-                        writeInfo(dos, ((CompanySection) sectionEntry.getValue()).getCompanies(), company -> {
-                            dos.writeUTF((company.getHomePage().getName()));
-                            dos.writeUTF(company.getHomePage().getUrl());
-                            writeInfo(dos, company.getCompanyPositions(), position -> {
-                               writeLocalDate(dos, position.getStartDate());
-                               writeLocalDate(dos, position.getEndDate());
+                    case ACHIEVEMENT, QUALIFICATIONS -> writeInfo(dos, ((ListSection) sectionEntry.getValue()).getItems(), dos::writeUTF);
+                    case EDUCATION, EXPERIENCE -> writeInfo(dos, ((CompanySection) sectionEntry.getValue()).getCompanies(), company -> {
+                        dos.writeUTF((company.getHomePage().getName()));
+                        dos.writeUTF(company.getHomePage().getUrl());
+                        writeInfo(dos, company.getCompanyPositions(), position -> {
+                            writeLocalDate(dos, position.getStartDate());
+                            writeLocalDate(dos, position.getEndDate());
 
-                                dos.writeUTF(position.getTitle());
-                                dos.writeUTF(position.getText());
-                            });
+                            dos.writeUTF(position.getTitle());
+                            dos.writeUTF(position.getText());
                         });
-                        break;
-                    }
-                    default:
-                        throw new IllegalStateException();
+                    });
+                    default -> throw new IllegalStateException();
                 }
             });
         }
@@ -86,25 +75,18 @@ public class DataStreamSerializer implements StrategySerialization {
     }
 
     private AbstractSection readSection(DataInputStream dis, SectionType sectionType) throws IOException {
-        switch (sectionType) {
-            case PERSONAL:
-            case OBJECTIVE:
-                return new StringSection(dis.readUTF());
-            case ACHIEVEMENT:
-            case QUALIFICATIONS:
-                return new ListSection(readList(dis, dis::readUTF));
-            case EXPERIENCE:
-            case EDUCATION:
-                return new CompanySection(
-                        readList(dis, () -> new Company(
-                                new Link(dis.readUTF(), dis.readUTF()),
-                                readList(dis, () -> new CompanyPosition(
-                                        readLocalDate(dis),
-                                        readLocalDate(dis), dis.readUTF(), dis.readUTF())
-                                ))));
-            default:
-                throw new IOException();
-        }
+        return switch (sectionType) {
+            case PERSONAL, OBJECTIVE -> new StringSection(dis.readUTF());
+            case ACHIEVEMENT, QUALIFICATIONS -> new ListSection(readList(dis, dis::readUTF));
+            case EXPERIENCE, EDUCATION -> new CompanySection(
+                    readList(dis, () -> new Company(
+                            new Link(dis.readUTF(), dis.readUTF()),
+                            readList(dis, () -> new CompanyPosition(
+                                    readLocalDate(dis),
+                                    readLocalDate(dis), dis.readUTF(), dis.readUTF())
+                            ))));
+            default -> throw new IOException();
+        };
     }
 
     private interface ElementReader<T> {
