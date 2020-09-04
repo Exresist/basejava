@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Objects;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class MainFile {
     public static void main(String[] args) throws IOException {
@@ -24,9 +26,10 @@ public class MainFile {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        File directory = new File("C:\\Users\\1\\basejava");
+        File directory = new File("C:\\Users\\gpaho\\basejava");
+        System.out.println(System.nanoTime());
         printFiles(directory, "");
-
+        System.out.println(System.nanoTime());
     }
 
     public static void printFiles(File directory, String space) {
