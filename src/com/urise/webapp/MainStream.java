@@ -21,11 +21,11 @@ public class MainStream {
     }
 
     private static List<Integer> oddOrEven(List<Integer> integers) {
-        Stream<Integer> integerStream = integers.stream();
-        integerStream = integerStream.reduce(0, Integer::sum) % 2 == 0
-                ? integerStream
+
+        Stream<Integer> integerStream = integers.stream().reduce(0, Integer::sum) % 2 == 0
+                ? integers.stream()
                 .filter((a) -> a % 2 == 0)
-                : integerStream
+                : integers.stream()
                 .filter((a) -> a % 2 != 0);
         return integerStream.collect(Collectors.toList());
     }
