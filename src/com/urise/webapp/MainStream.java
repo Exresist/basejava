@@ -9,7 +9,7 @@ public class MainStream {
     public static void main(String[] args) {
         int[] values = new int[]{9, 8, 1, 2, 2, 2, 3};
         System.out.println(minValue(values));
-        List<Integer> integers = Arrays.asList(1, 2 ,3, 4);
+        List<Integer> integers = Arrays.asList(1, 2, 3, 4);
         System.out.println(oddOrEven(integers));
     }
 
@@ -22,11 +22,11 @@ public class MainStream {
 
     private static List<Integer> oddOrEven(List<Integer> integers) {
 
-        Stream<Integer> integerStream = integers.stream().reduce(0, Integer::sum) % 2 == 0
-                ? integers.stream()
-                .filter((a) -> a % 2 == 0)
-                : integers.stream()
-                .filter((a) -> a % 2 != 0);
-        return integerStream.collect(Collectors.toList());
+        Integer sum = integers.stream().reduce(0, Integer::sum);
+
+        return integers.stream()
+                .filter(sum % 2 == 0
+                        ? (a) -> a % 2 == 0
+                        : (a) -> a % 2 != 0).collect(Collectors.toList());
     }
 }
