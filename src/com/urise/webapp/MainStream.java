@@ -25,8 +25,6 @@ public class MainStream {
         Integer sum = integers.stream().reduce(0, Integer::sum);
 
         return integers.stream()
-                .filter(sum % 2 == 0
-                        ? (a) -> a % 2 == 0
-                        : (a) -> a % 2 != 0).collect(Collectors.toList());
+                .filter(a -> a % 2 != sum % 2).collect(Collectors.toList());
     }
 }

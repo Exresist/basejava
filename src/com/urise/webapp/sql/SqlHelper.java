@@ -4,6 +4,7 @@ import com.urise.webapp.exception.StorageException;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class SqlHelper {
@@ -13,11 +14,15 @@ public class SqlHelper {
         this.connectionFactory = connectionFactory;
     }
 
-    public PreparedStatement statementPreparation(String sql) {
+    public interface Executor<T> {
+        T execute(PreparedStatement ps) throws SQLException;
+    }
+
+    public <T> T statementExecution(String sql, Executor<T> executor) {
         try (Connection connection = connectionFactory.getConnection();
+             PreparedStatement ps = connection.prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE)
         ) {
-            PreparedStatement ps = connection.prepareStatement(sql);
-            return ps;
+            return executor.execute(ps);
         } catch (SQLException e) {
             throw new StorageException(e);
         }
