@@ -76,7 +76,7 @@ public class SqlStorage implements Storage {
             ResultSet rs = ps.executeQuery();
             List<Resume> resumes = new ArrayList<>();
             while (rs.next()) {
-                resumes.add(new Resume(rs.getString("uuid").replaceAll("\\s", ""), rs.getString("full_name")));
+                resumes.add(new Resume(rs.getString("uuid"), rs.getString("full_name")));
             }
             return resumes;
         });
@@ -84,13 +84,10 @@ public class SqlStorage implements Storage {
 
     @Override
     public int size() {
-        return sqlHelper.statementExecution("SELECT * FROM resume", ps -> {
+        return sqlHelper.statementExecution("SELECT COUNT(*) AS count FROM resume", ps -> {
             ResultSet rs = ps.executeQuery();
-            int count;
-            rs.last();
-            count = rs.getRow();
-            rs.beforeFirst();
-            return count;
+            rs.next();
+            return rs.getInt("count");
         });
     }
 }

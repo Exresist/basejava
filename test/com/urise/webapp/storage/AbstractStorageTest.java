@@ -76,7 +76,7 @@ public abstract class AbstractStorageTest {
         }
     }
 
-    @Test(expected = StorageException.class)
+    @Test(expected = ExistStorageException.class)
     public void saveExist() {
         storage.save(RESUME_1);
     }
