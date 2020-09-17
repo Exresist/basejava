@@ -16,12 +16,12 @@ public class ResumeTestData {
         resume.addContact(ContactType.SKYPE, "AlexClanc123");
         resume.addContact(ContactType.STACKOVERFLOW, "Dima");
 
-        resume.addSection(SectionType.PERSONAL, new StringSection("Hackerman"));
+       /* resume.addSection(SectionType.PERSONAL, new StringSection("Hackerman"));
         resume.addSection(SectionType.OBJECTIVE, new StringSection("Hackerman"));
         resume.addSection(SectionType.ACHIEVEMENT, new ListSection("sss1231", "ss", "sanya", "HSE"));
         resume.addSection(SectionType.QUALIFICATIONS, new ListSection("sss123", "s21", "sanya123", "HSE123"));
         resume.addSection(SectionType.EXPERIENCE, new CompanySection(new Company("homePage", "www.google.com", new CompanyPosition(LocalDate.MIN, LocalDate.now(), "Vse sdelal", "Rabota klevaya"), new CompanyPosition(LocalDate.MIN, LocalDate.now(), "Vse sdelal", "Rabota klevaya"))));
-        resume.addSection(SectionType.EDUCATION, new CompanySection(new Company("homePageNumTwo", "www.yandex.ru", new CompanyPosition(LocalDate.MIN, LocalDate.now(), "Vse sdelal", "Rabota klevaya"))));
+        resume.addSection(SectionType.EDUCATION, new CompanySection(new Company("homePageNumTwo", "www.yandex.ru", new CompanyPosition(LocalDate.MIN, LocalDate.now(), "Vse sdelal", "Rabota klevaya"))));*/
         return resume;
     }
 
