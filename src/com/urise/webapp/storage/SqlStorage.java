@@ -83,15 +83,12 @@ public class SqlStorage implements Storage {
 
     @Override
     public void delete(String uuid) {
-        sqlHelper.transactionalExecute(conn -> {
-                    try (PreparedStatement ps = conn.prepareStatement("DELETE FROM resume r " +
-                            "WHERE r.uuid = ?")) {
-                        ps.setString(1, uuid);
-                        if (ps.executeUpdate() == 0) {
-                            throw new NotExistStorageException(uuid);
-                        }
-                        ps.execute();
+        sqlHelper.execute("DELETE FROM resume r WHERE r.uuid = ?", ps -> {
+                    ps.setString(1, uuid);
+                    if (ps.executeUpdate() == 0) {
+                        throw new NotExistStorageException(uuid);
                     }
+                    ps.execute();
                     return null;
                 }
         );
@@ -124,8 +121,9 @@ public class SqlStorage implements Storage {
         });
     }
 
-    private void saveContacts(Resume resume, Connection conn) {
-        try (PreparedStatement ps = conn.prepareStatement("")) {
+    private void saveContacts(Resume resume, Connection conn) throws SQLException {
+        try (PreparedStatement ps = conn.prepareStatement("INSERT INTO contact (resume_uuid, type, value) " +
+                "VALUES (?,?,?)")) {
             for (Map.Entry<ContactType, String> e : resume.getContacts().entrySet()) {
                 ps.setString(1, resume.getUuid());
                 ps.setString(2, e.getKey().name());
@@ -133,18 +131,15 @@ public class SqlStorage implements Storage {
                 ps.addBatch();
             }
             ps.executeBatch();
-        } catch (SQLException e) {
-            e.printStackTrace();
         }
 
     }
 
-    private void deleteContacts(String uuid, Connection conn) {
-        sqlHelper.execute("DELETE FROM contact " +
-                "WHERE resume_uuid = ?", ps -> {
+    private void deleteContacts(String uuid, Connection conn) throws SQLException {
+        try (PreparedStatement ps = conn.prepareStatement("DELETE FROM contact " +
+                "WHERE resume_uuid = ?")) {
             ps.setString(1, uuid);
             ps.execute();
-            return null;
-        });
+        }
     }
 }
