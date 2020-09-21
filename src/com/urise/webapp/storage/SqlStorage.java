@@ -9,6 +9,7 @@ import com.urise.webapp.sql.SqlHelper;
 
 import java.sql.*;
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class SqlStorage implements Storage {
     public final ConnectionFactory connectionFactory;
@@ -71,11 +72,7 @@ public class SqlStorage implements Storage {
                     }
                     Resume resume = new Resume(uuid, rs.getString("full_name"));
                     do {
-                        String value = rs.getString("value");
-                        String type = rs.getString("type");
-                        if (value != null) {
-                            resume.addContact(ContactType.valueOf(type), value);
-                        }
+                        addContact(resume, rs);
                     } while (rs.next());
                     return resume;
                 });
@@ -104,10 +101,11 @@ public class SqlStorage implements Storage {
             Map<String, Resume> resumes = new LinkedHashMap<>();
             while (rs.next()) {
                 String uuid = rs.getString("uuid");
-                if (!resumes.containsKey(uuid)) {
-                    resumes.put(uuid, new Resume(uuid, rs.getString("full_name")));
-                }
-                resumes.get(uuid).addContact(ContactType.valueOf(rs.getString("type")), rs.getString("value"));
+                String name = rs.getString("full_name");
+                resumes.computeIfAbsent(uuid, k ->
+                        new Resume(uuid, name)
+                );
+                addContact(resumes.get(uuid), rs);
             }
             return new ArrayList<>(resumes.values());
         });
@@ -140,6 +138,14 @@ public class SqlStorage implements Storage {
                 "WHERE resume_uuid = ?")) {
             ps.setString(1, uuid);
             ps.execute();
+        }
+    }
+
+    private void addContact(Resume resume, ResultSet rs) throws SQLException {
+        String value = rs.getString("value");
+        String type = rs.getString("type");
+        if (value != null) {
+            resume.addContact(ContactType.valueOf(type), value);
         }
     }
 }
